@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import './styles/signUp.css';
+import SignUp from "./components/SignUp";
+import LoginIn from "./components/Login";
+import {
+  Routes, // instead of "Switch"
+  Route,
+  useNavigate,
+} from "react-router-dom";
+import Landing from './components/Landing';
 
 function App() {
+  const nav = useNavigate();
+  const handleCheckout = () => nav("/");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Routes history={handleCheckout}>
+    <Route path="/" element={<Landing />} />
+    <Route path="/signup" element={<SignUp />} />
+    <Route path="/login" element={<LoginIn />} />
+    {/* <Route path="*" element={<PageNotFound />} />  */}
+  </Routes>
+  ); 
 }
 
 export default App;
