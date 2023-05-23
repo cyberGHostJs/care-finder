@@ -56,7 +56,7 @@
   border: 1px solid black !important;
 }
 .grey-border-bottom {
-  border-bottom: 1px solid rgba(128, 128, 128, 0.444) !important;
+  border-bottom: 1px solid #D4D4D4 !important;
 }
 .input-font-size{
   font-size: 15px !important;
@@ -66,19 +66,19 @@
   /* background-color: inherit !important; */
   color: red !important;
   width: 100%;
+  font-size: 15px !important;
+  margin-top: 3%;
 }
 .signUp-conainer {
   background-color: #f5f1ea;
   font-size: 15px !important;
+  height: fit-content;
 }
 .nav-login-container{
   padding: 1% 0;
 }
 .login-btn{
-  color: #031538 !important;
-  border: 1px solid #031538 !important;
-  padding: 3% 18% !important;
+  padding: 4% 15% !important;
   font-size: 15px !important;
-  margin-left: 12%;
 }
 

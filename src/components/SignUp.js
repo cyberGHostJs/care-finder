@@ -6,34 +6,81 @@ import frame2 from "../images/frame2.png";
 import frame10 from "../images/Frame10.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
-export function NavSignUpLogin() {
+export function NavSignUpLogin({
+  buttonText,
+  buttonBgColor,
+  buttonBorder,
+  btnColor,
+  linkTo,
+  btnMarginLft,
+}) {
   return (
     <Row className="grey-border-bottom nav-login-container">
-      <Col xs={{ span: "2", offset: '1' }} className="">
+      <Col xs={{ span: "2", offset: "1" }} className="">
         <img src={frame10} alt="" width="60%" />
       </Col>
-      <Col xs={{ span: "2", offset: '6' }} className="">
-        <Button className="round-border btn-bg-inherit login-btn ">Login Instead</Button>
+      <Col xs={{ span: "2", offset: "6" }} className="">
+        <Link to={linkTo} style={{ marginLeft: btnMarginLft }}>
+          <Button
+            className="round-border login-btn "
+            style={{
+              backgroundColor: buttonBgColor,
+              border: buttonBorder,
+              color: btnColor,
+            }}
+          >
+            {buttonText}
+          </Button>
+        </Link>
       </Col>
     </Row>
   );
 }
 
 function SignUp() {
+  const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordValidated, setPasswordValidated] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  const validatePassword = (value) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{5,}$/;
+    return passwordRegex.test(value);
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    setPasswordValidated(false);
+  };
+
+  const handlePasswordBlur = () => {
+    setPasswordValidated(true);
+  };
+
+  const isPasswordValid = validatePassword(password);
+
   return (
-    <Container fluid className="signUp-conainer">{/*------we can add "fixed" to the class to make it fixed------*/}
-      <NavSignUpLogin />
-      <br/>
-      <br/>
-      <br/>
-      <Row style={{ height: "95vh" }}>
+    <Container fluid className="signUp-conainer">
+      {/*------we can add "fixed" to the class to make it fixed------*/}
+      <NavSignUpLogin
+        buttonText="Login Instead"
+        buttonBgColor="inherit"
+        buttonBorder="1px solid #031538"
+        btnColor="#031538"
+        linkTo="/login"
+        btnMarginLft="12%"
+      />
+      <br />
+      <br />
+      <br />
+      <Row>
         {/* -------buttom image left--------------------- */}
         <Col className="relative">
           <img
@@ -49,7 +96,7 @@ function SignUp() {
           {/*-----first section----------*/}
           <Row>
             <Col>
-              <h6 style={{fontWeight: '700'}}>Create New Account</h6>
+              <h6 style={{ fontWeight: "700" }}>Create New Account</h6>
               <p className="text-muted">
                 Sign up with google or enter your personal detail below to
                 create your account
@@ -73,7 +120,7 @@ function SignUp() {
                 <Col>
                   <hr />
                 </Col>
-                <Col xs={{ span: "1" }}>or</Col>
+                <Col xs={{ span: "1" }}>Or</Col>
                 <Col>
                   <hr />
                 </Col>
@@ -86,6 +133,7 @@ function SignUp() {
             <Form.Group controlId="formBasicFirstName">
               <Form.Label>Full Name</Form.Label>
               <Form.Control
+                required
                 className="round-border input-font-size input-padding-lf"
                 type="text"
                 placeholder="E.g Eric Davidson"
@@ -95,6 +143,7 @@ function SignUp() {
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
+                required
                 className="round-border input-font-size input-padding-lf"
                 type="email"
                 placeholder="E.g edavidson@gmail.com"
@@ -104,19 +153,25 @@ function SignUp() {
             <Form.Group controlId="formBasicLastName">
               <Form.Label>Phone Number</Form.Label>
               <Form.Control
+                required
                 className="round-border input-font-size input-padding-lf"
                 type="text"
                 placeholder="E.g 08098739000"
               />
             </Form.Group>
-
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <div className="password-input-container">
                 <Form.Control
-                  className="round-border input-font-size input-padding-lf"
+                  required
+                  className={`round-border input-font-size input-padding-lf ${
+                    passwordValidated && !isPasswordValid ? "is-invalid" : ""
+                  }`}
                   type={passwordVisible ? "text" : "password"}
-                  placeholder="Enter password"
+                  placeholder={passwordVisible ? "E.g Gamer68$" : "********"}
+                  value={password}
+                  onChange={handlePasswordChange}
+                  onBlur={handlePasswordBlur}
                 />
                 <div className="password-icon-container">
                   <FontAwesomeIcon
@@ -126,6 +181,13 @@ function SignUp() {
                   />
                 </div>
               </div>
+              {passwordValidated && !isPasswordValid && (
+                <Form.Text className="text-danger">
+                  Password must contain at least one uppercase letter, one
+                  lowercase letter, one number, one symbol, and have a minimum
+                  length of 5 characters.
+                </Form.Text>
+              )}
             </Form.Group>
 
             <Button
@@ -137,10 +199,11 @@ function SignUp() {
               Create Account
             </Button>
             <br />
-            <br />
             <Button className="link-btn no-border btn-bg-inherit">
               It's an emergency, connect me quickly
             </Button>
+            <br />
+            <br />
             <br />
           </Form>
         </Col>
