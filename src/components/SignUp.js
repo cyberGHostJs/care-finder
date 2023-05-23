@@ -1,12 +1,24 @@
-// import React from 'react';
-
 import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import googleLogo from "../images/googleLogo.svg";
 import frame1 from "../images/frame1.png";
 import frame2 from "../images/frame2.png";
+import frame10 from "../images/Frame10.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
+export function NavSignUpLogin() {
+  return (
+    <Row className="grey-border-bottom nav-login-container">
+      <Col xs={{ span: "2", offset: '1' }} className="">
+        <img src={frame10} alt="" width="60%" />
+      </Col>
+      <Col xs={{ span: "2", offset: '6' }} className="">
+        <Button className="round-border btn-bg-inherit login-btn ">Login Instead</Button>
+      </Col>
+    </Row>
+  );
+}
 
 function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -16,14 +28,12 @@ function SignUp() {
   };
 
   return (
-    <Container fluid className="signUp-conainer fixed">
-      <Row>
-        <Col>
-        {/*--------navBar------*/}nav
-        </Col>
-      </Row>
-
-      <Row style={{ height: "100vh" }}>
+    <Container fluid className="signUp-conainer">{/*------we can add "fixed" to the class to make it fixed------*/}
+      <NavSignUpLogin />
+      <br/>
+      <br/>
+      <br/>
+      <Row style={{ height: "95vh" }}>
         {/* -------buttom image left--------------------- */}
         <Col className="relative">
           <img
@@ -39,14 +49,14 @@ function SignUp() {
           {/*-----first section----------*/}
           <Row>
             <Col>
-              <h4>Create New Account</h4>
-              <p>
+              <h6 style={{fontWeight: '700'}}>Create New Account</h6>
+              <p className="text-muted">
                 Sign up with google or enter your personal detail below to
                 create your account
               </p>
               <Form>
                 <Button
-                  className="round-border no-border"
+                  className="round-border no-border input-font-size"
                   type="submit"
                   style={{
                     width: "100%",
@@ -54,7 +64,7 @@ function SignUp() {
                     backgroundColor: "white",
                   }}
                 >
-                  <img src={googleLogo} alt="googleLogo" width="7%" /> Sign Up
+                  <img src={googleLogo} alt="googleLogo" width="6%" /> Sign Up
                   with Google
                 </Button>
               </Form>
@@ -68,7 +78,7 @@ function SignUp() {
                   <hr />
                 </Col>
               </Row>
-              <br />
+              {/* <br /> */}
             </Col>
           </Row>
           {/*---------Sign Up form---------*/}
@@ -76,7 +86,7 @@ function SignUp() {
             <Form.Group controlId="formBasicFirstName">
               <Form.Label>Full Name</Form.Label>
               <Form.Control
-                className="round-border"
+                className="round-border input-font-size input-padding-lf"
                 type="text"
                 placeholder="E.g Eric Davidson"
               />
@@ -85,7 +95,7 @@ function SignUp() {
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
-                className="round-border"
+                className="round-border input-font-size input-padding-lf"
                 type="email"
                 placeholder="E.g edavidson@gmail.com"
               />
@@ -94,7 +104,7 @@ function SignUp() {
             <Form.Group controlId="formBasicLastName">
               <Form.Label>Phone Number</Form.Label>
               <Form.Control
-                className="round-border"
+                className="round-border input-font-size input-padding-lf"
                 type="text"
                 placeholder="E.g 08098739000"
               />
@@ -104,7 +114,7 @@ function SignUp() {
               <Form.Label>Password</Form.Label>
               <div className="password-input-container">
                 <Form.Control
-                  className="round-border"
+                  className="round-border input-font-size input-padding-lf"
                   type={passwordVisible ? "text" : "password"}
                   placeholder="Enter password"
                 />
@@ -128,11 +138,9 @@ function SignUp() {
             </Button>
             <br />
             <br />
-            <Button className="link-btn no-border">
+            <Button className="link-btn no-border btn-bg-inherit">
               It's an emergency, connect me quickly
             </Button>
-            <br />
-            <br />
             <br />
           </Form>
         </Col>
