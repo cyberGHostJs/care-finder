@@ -1,22 +1,45 @@
-// import { Container } from "react-bootstrap";
 import { NavSignUpLogin } from "./SignUp";
-// import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import googleLogo from "../images/googleLogo.svg";
 import frame1 from "../images/frame1.png";
 import frame2 from "../images/frame2.png";
-// import frame10 from "../images/Frame10.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
 
 const LoginIn = () => {
-    const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
-    const togglePasswordVisibility = () => {
-      setPasswordVisible(!passwordVisible);
-    };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Sign in the user with email and password
+      await auth.signInWithEmailAndPassword(email, password);
+
+      // Clear login form inputs
+      setEmail("");
+      setPassword("");
+
+      // Redirect to the welcome page
+      navigate("/welcome");
+    } catch (error) {
+      console.error("Login error:", error);
+      // Handle login error and display an error message
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   return (
     <Container fluid className="signUp-conainer">
       <NavSignUpLogin
@@ -25,9 +48,9 @@ const LoginIn = () => {
         buttonBorder="1px solid #167150"
         btnColor="white"
         linkTo="/signup"
-        btnMarginLft='5%'
+        btnMarginLft="5%"
       />
-            <br />
+      <br />
       <br />
       <br />
       <br />
@@ -49,11 +72,12 @@ const LoginIn = () => {
             <Col>
               <h6 style={{ fontWeight: "700" }}>Login To Your Account</h6>
               <p className="text-muted">
-                Login in with google or enter login detail to
-                access your account
+                Login in with google or enter login detail to access your
+                account
               </p>
               <Form>
                 <Button
+                //   onClick={handleGoogleLogin}
                   className="round-border no-border input-font-size"
                   type="submit"
                   style={{
@@ -62,7 +86,7 @@ const LoginIn = () => {
                     backgroundColor: "white",
                   }}
                 >
-                  <img src={googleLogo} alt="googleLogo" width="6%" /> Sign Up
+                  <img src={googleLogo} alt="googleLogo" width="6%" /> Login
                   with Google
                 </Button>
               </Form>
@@ -77,7 +101,6 @@ const LoginIn = () => {
                   <hr />
                 </Col>
               </Row>
-              {/* <br /> */}
             </Col>
           </Row>
           {/*---------Sign Up form---------*/}
@@ -85,8 +108,10 @@ const LoginIn = () => {
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
-                className="round-border input-font-size input-padding-lf"
+                className="round-border input-font-size input-padding-lf input-margin-buttom"
                 type="email"
                 placeholder="E.g edavidson@gmail.com"
               />
@@ -96,9 +121,11 @@ const LoginIn = () => {
               <Form.Label>Password</Form.Label>
               <div className="password-input-container">
                 <Form.Control
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
-                  style={{ marginBottom: '2%'}}
-                  className="round-border input-font-size input-padding-lf"
+                  style={{ marginBottom: "2%" }}
+                  className="round-border input-font-size input-padding-lf "
                   type={passwordVisible ? "text" : "password"}
                   placeholder="Enter password"
                 />
@@ -111,18 +138,31 @@ const LoginIn = () => {
                 </div>
               </div>
             </Form.Group>
-            <Form.Text style={{width: '100%', color: 'black', fontWeight: '500', }}>Forgot Password? <span style={{textDecoration: 'underline', textUnderlineOffset: '3px', color:'#2F80ED'}}><> Reset your password</></span></Form.Text>
+            <Form.Text
+              style={{ width: "100%", color: "black", fontWeight: "500" }}
+            >
+              Forgot Password?{" "}
+              <Link to="/resetpassword" style={{ marginLeft: "" }}>
+                <span
+                  style={{
+                    color: "#2F80ED",
+                  }}
+                >
+                  <> Reset your password</>
+                </span>
+              </Link>
+            </Form.Text>
             <br />
             <br />
-
 
             <Button
               className="round-border"
               variant="success"
               type="submit"
               style={{ width: "100%", marginTop: "5%" }}
+              onClick={handleLogin}
             >
-              Create Account
+              Login
             </Button>
             <br />
             {/* <br /> */}
@@ -148,3 +188,59 @@ const LoginIn = () => {
 };
 
 export default LoginIn;
+
+
+
+//----BUILD UP____------
+// //====START=====
+// import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { auth } from "../firebase";
+// // import firebase from "firebase/compat/app";
+
+// function LoginPage() {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const navigate = useNavigate();
+
+//   const handleLogin = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       // Sign in the user with email and password
+//       await auth.signInWithEmailAndPassword(email, password);
+
+//       // Clear login form inputs
+//       setEmail("");
+//       setPassword("");
+
+//       // Redirect to the welcome page
+//       navigate("/welcome");
+//     } catch (error) {
+//       console.error("Login error:", error);
+//       // Handle login error and display an error message
+//     }
+//   };
+
+//   return (
+//     <form>
+//       <input
+//         type="email"
+//         value={email}
+//         onChange={(e) => setEmail(e.target.value)}
+//         placeholder="Email"
+//       />
+//       <input
+//         type="password"
+//         value={password}
+//         onChange={(e) => setPassword(e.target.value)}
+//         placeholder="Password"
+//       />
+//       <button type="submit" onClick={handleLogin}>
+//         Login
+//       </button>
+//     </form>
+//   );
+// }
+
+// export default LoginPage;

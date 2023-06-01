@@ -1,0 +1,19 @@
+.MainNav-Ul {
+    padding: 0 !important;
+}
+.MainNav-Ul li{
+    /* border: 1px solid black; */
+    cursor: pointer;
+    margin: 0% auto !important;
+    font-size: 15px !important;
+}
+.search-input-group{
+    position: relative;
+}
+.search-button{
+    position: absolute;
+    padding: 1% !important;
+    width: 25%;
+    top: 9%;
+    left: 74%;
+}

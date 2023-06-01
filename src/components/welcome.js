@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import frame10 from "../images/Frame10.png";
 import Icon1 from "../images/Icon1.png";
@@ -6,19 +6,66 @@ import Icon1 from "../images/Icon1.png";
 import Icon2 from "../images/Icon2.png";
 import Icon3 from "../images/Icon3.png";
 import Icon8 from "../images/Icon8.png";
-import calendaicon from "../images/calendaicon.png";
-import clock from "../images/clock.png";
-import mappin from "../images/mappin.png";
 import filtericon from "../images/filtericon.png";
 import downloadicon from "../images/downloadicon.png";
 import hospitalpic1 from "../images/hospitalpic1.png";
 import hospitalpic2 from "../images/hospitalpic2.png";
 import hospitalpic3 from "../images/hospitalpic3.png";
 import hospitalpic4 from "../images/hospitalpic4.png";
-import { Link } from "react-router-dom";
+import calendaicon from "../images/calendaicon.png";
+import clock from "../images/clock.png";
+import mappin from "../images/mappin.png";
 
+
+// WelcomePage.js
+
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth, firestore } from "../firebase";
 
 const MainNav = () => {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is authenticated
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is authenticated, retrieve user data from Firestore
+        firestore
+          .collection("users")
+          .doc(user.uid)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              setUser(doc.data());
+            }
+          })
+          .catch((error) => {
+            console.error("Error retrieving user data:", error);
+          });
+      } else {
+        // User is not authenticated, redirect to the login page
+        navigate("/login");
+      }
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    try {
+      // Sign out the user
+      await auth.signOut();
+
+      // Redirect to the login page
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Handle logout error and display an error message
+    }
+  };
   return (
     <Row className="grey-border-bottom" style={{ padding: "1% 5%" }}>
       <Col className="">
@@ -57,28 +104,72 @@ const MainNav = () => {
             />
             Saved
           </li>
-          <Link to="/login" style={{ textDecoration: "none", color: "black"}}>
-          <li>
-            <span
-              className="rounded-circle"
-              style={{
-                backgroundColor: "#D9D9D9",
-                marginRight: "14px",
-                padding: "2px 6px",
-              }}
-            >
-              <img src={Icon3} alt="" width="12px" style={{}} />
-            </span>
-            My Profile
-          </li>
-          </Link>
+          {user && (
+            <li>
+              <span
+                className="rounded-circle"
+                style={{
+                  backgroundColor: "#D9D9D9",
+                  marginRight: "14px",
+                  padding: "2px 6px",
+                }}
+              >
+                <img src={Icon3} alt="" width="12px" style={{}} />
+              </span>
+              {user.fullName}
+            </li>
+          )}
         </ul>
       </Col>
     </Row>
   );
 };
 
-function Landing() {
+function WelcomePage() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is authenticated
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is authenticated, retrieve user data from Firestore
+        firestore
+          .collection("users")
+          .doc(user.uid)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              setUser(doc.data());
+            }
+          })
+          .catch((error) => {
+            console.error("Error retrieving user data:", error);
+          });
+      } else {
+        // User is not authenticated, redirect to the login page
+        navigate("/login");
+      }
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    try {
+      // Sign out the user
+      await auth.signOut();
+
+      // Redirect to the login page
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Handle logout error and display an error message
+    }
+  };
+
+  //   starts here-----
   const [hospitals, setHospitals] = useState([
     {
       name: "Redcare Specialist Hospital",
@@ -178,13 +269,30 @@ function Landing() {
         </h6>
         <p style={{ margin: "3% auto" }}>
           {" "}
-          <img src={mappin} alt="" width="5%"style={{ marginRight: "1%"}} /> {hospital.location}
+          <img
+            src={mappin}
+            alt=""
+            width="5%"
+            style={{ marginRight: "1%" }}
+          />{" "}
+          {hospital.location}
         </p>
         <p>
-          <img src={calendaicon} alt="" width="5%" style={{ marginRight: "1%"}}/> {hospital.date}{" "}
-          <span style={{ marginLeft: "4%"}}>
+          <img
+            src={calendaicon}
+            alt=""
+            width="5%"
+            style={{ marginRight: "1%" }}
+          />{" "}
+          {hospital.date}{" "}
+          <span style={{ marginLeft: "4%" }}>
             {" "}
-            <img src={clock} alt="" width="5%" style={{ marginRight: "2%"}}/>
+            <img
+              src={clock}
+              alt=""
+              width="5%"
+              style={{ marginRight: "2%" }}
+            />
             {hospital.time}
           </span>
         </p>
@@ -214,6 +322,11 @@ function Landing() {
   };
 
   return (
+    // <div>
+    //   {user && <h2>Welcome, {user.fullName}!, this is your email: {user.email}, and this is your phone number: {user.phoneNumber}</h2>}
+    //   <button onClick={handleLogout}>Logout</button>
+    // </div>
+
     <Container fluid style={{}}>
       <MainNav />
       <Row className="grey-border-bottom">
@@ -311,10 +424,13 @@ function Landing() {
             variant="success"
             style={{ width: "38%", marginLeft: "47%", marginTop: "4.5%" }}
             className="round-border"
-            onClick={handleSearch}
+            // onClick={handleSearch}
+            onClick={handleLogout}
+
+            
           >
             <img src={downloadicon} alt="" width="20px" />
-            <span style={{ marginLeft: "7%" }}>Export list as CVS</span>
+            <span style={{ marginLeft: "7%" }}>{/*Export list as CVS*/} logout</span>
           </Button>
         </Col>
       </Row>
@@ -323,4 +439,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default WelcomePage;
