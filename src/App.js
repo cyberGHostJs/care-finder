@@ -1,14 +1,16 @@
 import "./styles/signUp.css";
 import "./styles/Landing.css";
 import SignUp from "./components/SignUp";
+import AdminSignup from "./components/adminSignup";
 import LoginIn from "./components/Login";
 import Landing from "./components/Landing";
 import ResetPW from "./components/ResetPW";
-
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Welcome from "./components/welcome";
-// import Dashboard from './components/Dashboard';
+import AdminWelcomePage from "./components/adminWelcome";
+
+
 
 function App() {
   const isAuthenticated = true; // Replace with your authentication logic
@@ -22,13 +24,11 @@ function App() {
 
       {/* ----FUNCTIONAL----- */}
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/AdminSignup" element={<AdminSignup />} />
       <Route path="/login" element={<LoginIn />} />
       <Route path="/welcome" element={<Welcome />} />
-      {/* ----FUNCTIONAL----- */}
-
+      <Route path="/adminWelcomePage" element={<AdminWelcomePage />} />
       <Route path="/resetpassword" element={<ResetPW />} />
-
-      {/* <Route path="/Dashboard" element={<Dashboard />} /> */}
       {/* <Route path="*" element={<PageNotFound />} />  */}
     </Routes>
   );

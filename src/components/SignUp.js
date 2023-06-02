@@ -10,6 +10,7 @@ import IconAlert from "../images/IconAler.png";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, firestore } from "../firebase";
+import firebase from "firebase/compat/app";
 
 export function NavSignUpLogin({
   buttonText,
@@ -45,6 +46,7 @@ export function NavSignUpLogin({
 }
 
 function SignUp() {
+  
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordValidated, setPasswordValidated] = useState(false);
 
@@ -69,6 +71,7 @@ function SignUp() {
         email: user.email,
         fullName,
         phoneNumber,
+        password,
       });
 
       // Clear sign-up form inputs
@@ -82,6 +85,32 @@ function SignUp() {
     } catch (error) {
       console.error("Sign up error:", error);
       // Handle sign-up error and display an error message
+    }
+  };
+  //handle sign up with gmail
+  const handleSignUpWithGmail = async () => {
+    try {
+      // Create a Google provider instance
+      const provider = new firebase.auth.GoogleAuthProvider();
+
+      // Force the user to select their email every time
+      provider.setCustomParameters({ prompt: "select_account" });
+
+      // Sign in with Google popup
+      const { user } = await auth.signInWithPopup(provider);
+
+      // Save additional user data to Firestore
+      await firestore.collection("users").doc(user.uid).set({
+        email: user.email,
+        fullName: user.displayName,
+        phoneNumber: user.phoneNumber,
+      });
+
+      // Redirect to the welcome page
+      navigate("/welcome");
+    } catch (error) {
+      console.error("Sign up with Gmail error:", error);
+      // Handle sign-up error with Gmail and display an error message
     }
   };
 
@@ -144,6 +173,7 @@ function SignUp() {
                     color: "black",
                     backgroundColor: "white",
                   }}
+                  onClick={handleSignUpWithGmail}
                   // onClick={signUpWithGoogle} // Add this onClick event handler
                 >
                   <img src={googleLogo} alt="googleLogo" width="6%" /> Sign Up

@@ -8,7 +8,8 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth, firestore } from "../firebase";
+import firebase from "firebase/compat/app";
 
 const LoginIn = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -17,6 +18,7 @@ const LoginIn = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  //login with email and password
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -28,11 +30,60 @@ const LoginIn = () => {
       setEmail("");
       setPassword("");
 
-      // Redirect to the welcome page
-      navigate("/welcome");
+      // Redirect to the appropriate welcome page based on user role
+      const userSnapshot = await firestore
+        .collection("users")
+        .where("email", "==", email)
+        .get();
+      const isAdmin = await firestore
+        .collection("admins")
+        .where("email", "==", email)
+        .get();
+
+      if (isAdmin) {
+        navigate("/adminWelcomePage");
+      } else {
+        navigate("/welcome");
+      }
     } catch (error) {
       console.error("Login error:", error);
       // Handle login error and display an error message
+    }
+  };
+
+  const handleLoginWithGmail = async (e) => {
+    e.preventDefault();
+
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: "select_account" });
+
+      const { user } = await auth.signInWithPopup(provider);
+
+      // Check if the user's email exists in Firestore
+      const userSnapshot = await firestore
+        .collection("users")
+        .where("email", "==", user.email)
+        .get();
+      const adminSnapshot = await firestore
+        .collection("admins")
+        .where("email", "==", user.email)
+        .get();
+
+      if (userSnapshot.empty && adminSnapshot.empty) {
+        // User email does not exist in either users or admins collection
+        navigate("/signUp");
+        throw new Error("User email does not exist.");
+      } else if (!userSnapshot.empty) {
+        // User email exists in the users collection
+        navigate("/welcome");
+      } else if (!adminSnapshot.empty) {
+        // User email exists in the admins collection
+        navigate("/adminWelcomePage");
+      }
+    } catch (error) {
+      console.error("Login with Gmail error:", error);
+      // Handle login error with Gmail and display an error message
     }
   };
 
@@ -77,7 +128,7 @@ const LoginIn = () => {
               </p>
               <Form>
                 <Button
-                //   onClick={handleGoogleLogin}
+                  onClick={handleLoginWithGmail}
                   className="round-border no-border input-font-size"
                   type="submit"
                   style={{
@@ -188,8 +239,6 @@ const LoginIn = () => {
 };
 
 export default LoginIn;
-
-
 
 //----BUILD UP____------
 // //====START=====

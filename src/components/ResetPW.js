@@ -4,9 +4,28 @@ import frame1 from "../images/frame1.png";
 import frame2 from "../images/frame2.png";
 import { Link } from "react-router-dom";
 
-
+import React, { useState } from "react";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 function ResetPW() {
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Send password reset email
+      await auth.sendPasswordResetEmail(email);
+
+      // Redirect to a success or confirmation page
+      navigate("/reset-password-success");
+    } catch (error) {
+      console.error("Reset password error:", error);
+      // Handle reset password error and display an error message
+    }
+  };
   return (
     <Container fluid className="signUp-conainer">
       <NavSignUpLogin
@@ -34,25 +53,26 @@ function ResetPW() {
           />
         </Col>
 
-        {/* -------Sign Up--------------------- */}
         <Col lg={{ span: "4" }}>
           {/*-----first section----------*/}
           <Row>
             <Col>
               <h6 style={{ fontWeight: "700" }}>Reset Your Password</h6>
               <p className="text-muted">
-              Enter your email address to reset your password.
+                Enter your email address to reset your password.
               </p>
               {/* <br /> */}
               {/* <br /> */}
             </Col>
           </Row>
-          {/*---------Sign Up form---------*/}
+          {/*---------reset password form---------*/}
           <Form>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="round-border input-font-size input-padding-lf input-margin-buttom"
                 type="email"
                 placeholder="E.g edavidson@gmail.com"
@@ -60,6 +80,7 @@ function ResetPW() {
             </Form.Group>
 
             <Button
+             onClick={handleResetPassword}
               className="round-border"
               variant="success"
               type="submit"
@@ -69,9 +90,9 @@ function ResetPW() {
             </Button>
             <br />
             <Link to="/login">
-            <Button className="link-btn blue-cl no-border btn-bg-inherit">
-            Login Instead
-            </Button>
+              <Button className="link-btn blue-cl no-border btn-bg-inherit">
+                Login Instead
+              </Button>
             </Link>
             <br />
           </Form>

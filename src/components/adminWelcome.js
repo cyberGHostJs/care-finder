@@ -19,7 +19,35 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, firestore } from "../firebase";
 
+
+//hospital data-base
+
 const HospitalsDataBase = () => {
+  const [hospitalName, setHospitalName] = useState("");
+  const [hospitalAddress, setHospitalAddress] = useState("");
+  const [hospitalEmail, setHospitalEmail] = useState("");
+  const [hospitalPhone, setHospitalPhone] = useState("");
+
+  const handleCreateHospital = async () => {
+    try {
+      // Create a new hospital entry in Firestore
+      await firestore.collection("hospitals").add({
+        name: hospitalName,
+        address: hospitalAddress,
+        email: hospitalEmail,
+        phone: hospitalPhone,
+      });
+
+      // Clear the hospital details input
+      setHospitalName("");
+      setHospitalAddress("");
+      setHospitalEmail("");
+      setHospitalPhone("");
+    } catch (error) {
+      console.error("Create hospital error:", error);
+      // Handle create hospital error and display an error message
+    }
+  };
 
     // Fetch hospitals from Firestore
     const [hospitals, setHospitals] = useState([]);
@@ -37,7 +65,17 @@ const HospitalsDataBase = () => {
   
       return () => unsubscribe();
     }, []);
-    
+
+    const handleDeleteHospital = async (hospitalId) => {
+      try {
+        // Delete the hospital entry from Firestore
+        await firestore.collection("hospitals").doc(hospitalId).delete();
+      } catch (error) {
+        console.error("Delete hospital error:", error);
+        // Handle delete hospital error and display an error message
+      }
+    };
+
   return (
     <div>
       <h2>Hospitals</h2>
@@ -51,12 +89,42 @@ const HospitalsDataBase = () => {
             <p>{hospital.address}</p>
             <p>{hospital.email}</p>
             <p>{hospital.phone}</p>
+            <button onClick={() => handleDeleteHospital(hospital.id)}>
+              Delete
+            </button>
           </div>
         ))}
       </div>
+      <h2>Create Hospital Entry</h2>
+      <input
+        type="text"
+        value={hospitalName}
+        onChange={(e) => setHospitalName(e.target.value)}
+        placeholder="Hospital Name"
+      />
+      <input
+        type="text"
+        value={hospitalAddress}
+        onChange={(e) => setHospitalAddress(e.target.value)}
+        placeholder="Hospital Address"
+      />
+      <input
+        type="text"
+        value={hospitalEmail}
+        onChange={(e) => setHospitalEmail(e.target.value)}
+        placeholder="Hospital Email"
+      />
+      <input
+        type="text"
+        value={hospitalPhone}
+        onChange={(e) => setHospitalPhone(e.target.value)}
+        placeholder="Hospital Phone"
+      />
+      <button onClick={handleCreateHospital}>Create Hospital</button>
     </div>
   );
 };
+
 
 const MainNav = () => {
   const [user, setUser] = useState(null);
@@ -68,7 +136,7 @@ const MainNav = () => {
       if (user) {
         // User is authenticated, retrieve user data from Firestore
         firestore
-          .collection("users")
+          .collection("admins")
           .doc(user.uid)
           .get()
           .then((doc) => {
@@ -150,7 +218,7 @@ const MainNav = () => {
   );
 };
 
-function WelcomePage() {
+function AdminWelcomePage() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -160,7 +228,7 @@ function WelcomePage() {
       if (user) {
         // User is authenticated, retrieve user data from Firestore
         firestore
-          .collection("users")
+          .collection("admins")
           .doc(user.uid)
           .get()
           .then((doc) => {
@@ -459,4 +527,4 @@ function WelcomePage() {
   );
 }
 
-export default WelcomePage;
+export default AdminWelcomePage;
