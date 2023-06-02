@@ -46,7 +46,6 @@ export function NavSignUpLogin({
 }
 
 function SignUp() {
-  
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordValidated, setPasswordValidated] = useState(false);
 
@@ -60,6 +59,23 @@ function SignUp() {
     e.preventDefault();
 
     try {
+      // Check if the email already exists in the admins collection
+      const adminSnapshot = await firestore
+        .collection("admins")
+        .where("email", "==", email)
+        .get();
+      if (!adminSnapshot.empty) {
+        throw new Error("Email already exists in admins collection.");
+      }
+
+      // Check if the email already exists in the users collection
+      const userSnapshot = await firestore
+        .collection("users")
+        .where("email", "==", email)
+        .get();
+      if (!userSnapshot.empty) {
+        throw new Error("Email already exists in users collection.");
+      }
       // Create user with email and password
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
@@ -98,6 +114,24 @@ function SignUp() {
 
       // Sign in with Google popup
       const { user } = await auth.signInWithPopup(provider);
+
+      // Check if the email already exists in the admins collection
+      const adminSnapshot = await firestore
+        .collection("admins")
+        .where("email", "==", user.email)
+        .get();
+      if (!adminSnapshot.empty) {
+        throw new Error("Email already exists in admins collection.");
+      }
+
+      // Check if the email already exists in the users collection
+      const userSnapshot = await firestore
+        .collection("users")
+        .where("email", "==", user.email)
+        .get();
+      if (!userSnapshot.empty) {
+        throw new Error("Email already exists in users collection.");
+      }
 
       // Save additional user data to Firestore
       await firestore.collection("users").doc(user.uid).set({

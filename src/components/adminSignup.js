@@ -1,21 +1,38 @@
-import React, { useState } from 'react';
-import 'firebase/auth';
+import React, { useState } from "react";
+import "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, firestore } from "../firebase";
 import firebase from "firebase/compat/app";
 
 function AdminSignup() {
-    
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [fullName, setFullName] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
 
     try {
+      // Check if the email already exists in the admins collection
+      const adminSnapshot = await firestore
+        .collection("admins")
+        .where("email", "==", email)
+        .get();
+      if (!adminSnapshot.empty) {
+        throw new Error("Email already exists in admins collection.");
+      }
+
+      // Check if the email already exists in the users collection
+      const userSnapshot = await firestore
+        .collection("users")
+        .where("email", "==", email)
+        .get();
+      if (!userSnapshot.empty) {
+        throw new Error("Email already exists in users collection.");
+      }
+
       // Create user with email and password
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
@@ -36,7 +53,7 @@ function AdminSignup() {
       setFullName("");
       setPhoneNumber("");
 
-      // Redirect to the welcome page
+      // Redirect to the admin welcome page
       navigate("/adminWelcomePage");
     } catch (error) {
       console.error("Sign up error:", error);
@@ -54,6 +71,24 @@ function AdminSignup() {
 
       // Sign in with Google popup
       const { user } = await auth.signInWithPopup(provider);
+
+      // Check if the email already exists in the admins collection
+      const adminSnapshot = await firestore
+        .collection("admins")
+        .where("email", "==", user.email)
+        .get();
+      if (!adminSnapshot.empty) {
+        throw new Error("Email already exists in admins collection.");
+      }
+
+      // Check if the email already exists in the users collection
+      const userSnapshot = await firestore
+        .collection("users")
+        .where("email", "==", user.email)
+        .get();
+      if (!userSnapshot.empty) {
+        throw new Error("Email already exists in users collection.");
+      }
 
       // Save additional user data to Firestore
       await firestore.collection("admins").doc(user.uid).set({

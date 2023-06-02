@@ -35,16 +35,18 @@ const LoginIn = () => {
         .collection("users")
         .where("email", "==", email)
         .get();
-      const isAdmin = await firestore
+      const adminSnapshot = await firestore
         .collection("admins")
         .where("email", "==", email)
         .get();
 
-      if (isAdmin) {
-        navigate("/adminWelcomePage");
-      } else {
-        navigate("/welcome");
-      }
+        if (!userSnapshot.empty) {
+          // User email exists in the users collection
+          navigate("/welcome");
+        } else if (!adminSnapshot.empty) {
+          // User email exists in the admins collection
+          navigate("/adminWelcomePage");
+        }
     } catch (error) {
       console.error("Login error:", error);
       // Handle login error and display an error message
