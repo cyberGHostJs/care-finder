@@ -221,7 +221,7 @@ const HospitalsDataBase = () => {
                         <img
                           src={src}
                           alt={alt}
-                          style={{ width: "90%", height: "auto" }}
+                          style={{ width: "90%", height: "250px", borderRadius: "15px" }}
                         />
                       ),
                     }}
