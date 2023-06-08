@@ -184,9 +184,7 @@ const HospitalsDataBase = () => {
             // onClick={handleLogout}
           >
             <img src={downloadicon} alt="" width="20px" />
-            <span style={{ marginLeft: "7%" }}>
-              Export list as CVS
-            </span>
+            <span style={{ marginLeft: "7%" }}>Export list as CVS</span>
           </Button>
         </Col>
       </Row>
@@ -220,7 +218,11 @@ const HospitalsDataBase = () => {
                         <img
                           src={src}
                           alt={alt}
-                          style={{ width: "90%", height: "auto" }}
+                          style={{
+                            width: "90%",
+                            height: "250px",
+                            borderRadius: "15px",
+                          }}
                         />
                       ),
                     }}
@@ -269,8 +271,29 @@ const HospitalsDataBase = () => {
 };
 
 const MainNav = () => {
+  const [isNavFixed, setIsNavFixed] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsNavFixed(true);
+      } else {
+        setIsNavFixed(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    //clean up event listener
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <Row className="grey-border-bottom" style={{ padding: "1% 5%" }}>
+    <Row
+      style={{ padding: "1% 5%" }}
+      className={
+        isNavFixed ? "fixed-top grey-border-bottom" : "grey-border-bottom"
+      }
+    >
       <Col className="">
         <img src={frame10} alt="" width="40%" />
       </Col>
@@ -307,20 +330,20 @@ const MainNav = () => {
             />
             Saved
           </li>
-          <Link to="/login" style={{ textDecoration: "none", color: "black"}}>
-          <li>
-            <span
-              className="rounded-circle"
-              style={{
-                backgroundColor: "#D9D9D9",
-                marginRight: "14px",
-                padding: "2px 6px",
-              }}
-            >
-              <img src={Icon3} alt="" width="12px" style={{}} />
-            </span>
-            My Profile
-          </li>
+          <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
+            <li>
+              <span
+                className="rounded-circle"
+                style={{
+                  backgroundColor: "#D9D9D9",
+                  marginRight: "14px",
+                  padding: "2px 6px",
+                }}
+              >
+                <img src={Icon3} alt="" width="12px" style={{}} />
+              </span>
+              My Profile
+            </li>
           </Link>
         </ul>
       </Col>

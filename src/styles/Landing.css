@@ -17,3 +17,14 @@
     top: 9%;
     left: 74%;
 }
+
+.fixed-top {
+    background-color: white;
+    transition: all 0.5s;
+    position: fixed;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  

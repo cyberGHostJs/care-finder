@@ -17,7 +17,6 @@ import { auth, firestore } from "../firebase";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-
 const HospitalsDataBase = () => {
   const [hospitalName, setHospitalName] = useState("");
   const [hospitalAddress, setHospitalAddress] = useState("");
@@ -270,7 +269,11 @@ const HospitalsDataBase = () => {
                         <img
                           src={src}
                           alt={alt}
-                          style={{ width: "90%", height: "250px", borderRadius: "15px", }}
+                          style={{
+                            width: "90%",
+                            height: "250px",
+                            borderRadius: "15px",
+                          }}
                         />
                       ),
                     }}
@@ -391,6 +394,23 @@ const MainNav = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  const [isNavFixed, setIsNavFixed] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsNavFixed(true);
+      } else {
+        setIsNavFixed(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    //clean up event listener
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   useEffect(() => {
     // Check if user is authenticated
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -419,7 +439,12 @@ const MainNav = () => {
   }, [navigate]);
 
   return (
-    <Row className="grey-border-bottom" style={{ padding: "1% 5%" }}>
+    <Row
+      className={
+        isNavFixed ? "fixed-top grey-border-bottom" : "grey-border-bottom"
+      }
+      style={{ padding: "1% 5%" }}
+    >
       <Col className="">
         <img src={frame10} alt="" width="40%" />
       </Col>
@@ -478,8 +503,6 @@ const MainNav = () => {
 };
 
 function AdminWelcomePage() {
- 
-
   return (
     <Container fluid style={{}}>
       <MainNav />
