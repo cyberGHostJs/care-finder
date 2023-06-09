@@ -1,6 +1,7 @@
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import frame10 from "../images/Frame10.png";
 import Icon1 from "../images/Icon1.png";
+import loved from "../images/loved.png";
 // import dropdownicon from "../images/dropdownicon.png";
 import Icon2 from "../images/Icon2.png";
 import Icon3 from "../images/Icon3.png";
@@ -79,6 +80,66 @@ const HospitalsDataBase = () => {
     } catch (error) {
       console.error("Logout error:", error);
       // Handle logout error and display an error message
+    }
+  };
+  const [likedHospitals, setLikedHospitals] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      const unsubscribe = firestore
+        .collection("users")
+        .doc(currentUser.uid)
+        .collection("likedHospitals")
+        .onSnapshot((snapshot) => {
+          const likedHospitalIds = snapshot.docs.map((doc) => doc.id);
+          setLikedHospitals(likedHospitalIds);
+          setLoading(false); // Set loading to false once the data is fetched
+        });
+  
+      return () => unsubscribe();
+    }
+  }, [auth.currentUser, firestore]);
+  
+
+  const handleLikeHospital = (hospitalId) => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      firestore
+        .collection("users")
+        .doc(currentUser.uid)
+        .collection("likedHospitals")
+        .doc(hospitalId)
+        .set({
+          liked: true,
+        })
+        .catch((error) => {
+          console.error("Error liking hospital:", error);
+          // Handle the error
+        });
+    } else {
+      // Handle the case when the user is not authenticated
+      // You can show an error message or redirect the user to the login page
+    }
+  };
+
+  const handleUnlikeHospital = (hospitalId) => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      firestore
+        .collection("users")
+        .doc(currentUser.uid)
+        .collection("likedHospitals")
+        .doc(hospitalId)
+        .delete()
+        .catch((error) => {
+          console.error("Error unliking hospital:", error);
+          // Handle the error
+        });
+    } else {
+      // Handle the case when the user is not authenticated
+      // You can show an error message or redirect the user to the login page
     }
   };
 
@@ -210,10 +271,14 @@ const HospitalsDataBase = () => {
                   lg="3"
                   key={hospital.id}
                   className=""
-                  style={{ fontSize: "14px", marginBottom: "5%" }}
+                  style={{
+                    fontSize: "14px",
+                    marginBottom: "5%",
+                    position: "relative",
+                  }}
                 >
+                  {" "}
                   <ReactMarkdown
-                    // key={index}
                     remarkPlugins={[remarkGfm]}
                     components={{
                       img: ({ src, alt }) => (
@@ -231,6 +296,44 @@ const HospitalsDataBase = () => {
                   >
                     {hospital.image}
                   </ReactMarkdown>
+                  {loading ? (
+                    <p>Loading...</p>
+                  ) : (
+                    // Render the component once the data is fetched
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "3%",
+                        right: "15%",
+                        width: "15%",
+                      }}
+                    >
+                      {likedHospitals.includes(hospital.id) ? (
+                        <button
+                          onClick={() => handleUnlikeHospital(hospital.id)}
+                          style={{
+                            backgroundColor: "red",
+                            border: "none",
+                            borderRadius: "50%",
+                            padding: "15% 20%",
+                          }}
+                        >
+                          <img src={loved} alt="loved" width="" />
+                        </button>
+                      ) : (
+                        <button
+                          style={{
+                            border: "none",
+                            borderRadius: "50%",
+                            padding: "15% 20%",
+                          }}
+                          onClick={() => handleLikeHospital(hospital.id)}
+                        >
+                          <img src={loved} alt="loved" width="" />
+                        </button>
+                      )}
+                    </div>
+                  )}
                   <h3 style={{ fontSize: "16px", fontWeight: "700" }}>
                     {hospital.name}
                   </h3>
@@ -280,7 +383,7 @@ const MainNav = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) {
+      if (window.scrollY > 10) {
         setIsNavFixed(true);
       } else {
         setIsNavFixed(false);
