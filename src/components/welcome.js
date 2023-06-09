@@ -2,6 +2,7 @@ import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import frame10 from "../images/Frame10.png";
 import Icon1 from "../images/Icon1.png";
 import loved from "../images/loved.png";
+import redlove from "../images/redlove.svg";
 // import dropdownicon from "../images/dropdownicon.png";
 import Icon2 from "../images/Icon2.png";
 import Icon3 from "../images/Icon3.png";
@@ -312,13 +313,12 @@ const HospitalsDataBase = () => {
                         <button
                           onClick={() => handleUnlikeHospital(hospital.id)}
                           style={{
-                            backgroundColor: "red",
                             border: "none",
                             borderRadius: "50%",
                             padding: "15% 20%",
                           }}
                         >
-                          <img src={loved} alt="loved" width="" />
+                          <img src={redlove} alt="loved" width="" />
                         </button>
                       ) : (
                         <button
