@@ -27,4 +27,46 @@
     left: 0;
     right: 0;
   }
+
+  .navbar ul{
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    display: flex;
+  }
+  .navbar ul li{
+    font-family: 'Roboto'sans-serif;
+    font-size: 16px;
+    padding: 1%;
+    padding-bottom: 2%;
+    width: max-content;
+    margin-inline: 2%;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    opacity: 0.75;
+  }
+  .navbar li:hover{
+    opacity: 1;
+  }
+  .navbar li.active{
+    color: green;
+  }
+  .navbar li.active::before{
+    border: 1px solid black;
+    width: 30%;
+  }
+  .navbar li::before {
+    transition: 300ms;
+    height: 2px;
+    content: "";
+    position: absolute;
+    background-color: black;
+    width: 0%;
+    bottom: 0%;
+  }
+  /* .navbar li:hover::before {
+    width: 95%;
+  } */
   

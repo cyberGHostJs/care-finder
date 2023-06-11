@@ -14,10 +14,11 @@ import clock from "../images/clock.png";
 import mappin from "../images/mappin.png";
 import firebase from "firebase/compat/app";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { auth, firestore } from "../firebase";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { CSVLink } from "react-csv";
 
 const HospitalsDataBase = () => {
   const [hospitalTag, setHospitalTag] = useState("");
@@ -25,6 +26,13 @@ const HospitalsDataBase = () => {
   const [filteredHospitals, setFilteredHospitals] = useState([]);
   const [allHospitals, setAllHospitals] = useState([]);
   const [availableTags, setAvailableTags] = useState([]);
+
+  //Add a state variable to track the exported data:
+  const [exportedData, setExportedData] = useState([]);
+
+  const handleExport = () => {
+    setExportedData(filteredHospitals);
+  };
 
   useEffect(() => {
     const unsubscribe = firestore
@@ -98,11 +106,10 @@ const HospitalsDataBase = () => {
           setLikedHospitals(likedHospitalIds);
           setLoading(false); // Set loading to false once the data is fetched
         });
-  
+
       return () => unsubscribe();
     }
   }, [auth.currentUser, firestore]);
-  
 
   const handleLikeHospital = (hospitalId) => {
     const currentUser = auth.currentUser;
@@ -369,17 +376,33 @@ const HospitalsDataBase = () => {
                 </Col>
               )
           )}
+
+          <button onClick={handleExport}>Export as CSV</button>
+          <CSVLink
+            data={exportedData}
+            filename="search_results.csv"
+            headers={[
+              { label: "Name", key: "name" },
+              { label: "Address", key: "address" },
+              { label: "Email", key: "email" },
+              { label: "Phone", key: "phone" },
+            ]}
+          >
+            Download CSV
+          </CSVLink>
         </Row>
       )}
     </div>
   );
 };
 
-const MainNav = () => {
+export const MainNav = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   const [isNavFixed, setIsNavFixed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // 
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -396,6 +419,20 @@ const MainNav = () => {
     };
   }, []);
 
+  const [activeMenuItem, setActiveMenuItem] = useState("findHospitals");
+  const location = useLocation();
+
+  useEffect(() => {
+    // Update activeMenuItem based on the current location
+    if (location.pathname === "/findHospitals") {
+      setActiveMenuItem("findHospitals");
+    } else if (location.pathname === "/savedHospitals") {
+      setActiveMenuItem("saved");
+    } else if (location.pathname === "/profile") {
+      setActiveMenuItem("profile");
+    }
+  }, [location]);
+
   useEffect(() => {
     // Check if user is authenticated
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -409,9 +446,12 @@ const MainNav = () => {
             if (doc.exists) {
               setUser(doc.data());
             }
+            setIsLoading(false); // Set isLoading to false after fetching the user data
           })
           .catch((error) => {
             console.error("Error retrieving user data:", error);
+            setIsLoading(false); // Set isLoading to false in case of an error
+
           });
       } else {
         // User is not authenticated, redirect to the login page
@@ -422,6 +462,11 @@ const MainNav = () => {
     // Clean up the listener when the component unmounts
     return () => unsubscribe();
   }, [navigate]);
+
+
+  if (isLoading) {
+    return <div></div>; // Render loading indicator while fetching user data
+  }
 
   return (
     <Row
@@ -434,7 +479,7 @@ const MainNav = () => {
         <img src={frame10} alt="" width="40%" />
       </Col>
       <Col
-        className=""
+        className="navbar"
         lg={{ span: "5", offset: "4" }}
         style={{ padding: "0%" }}
       >
@@ -446,28 +491,47 @@ const MainNav = () => {
             margin: "0",
           }}
         >
-          <li>
-            <span>
+            <li
+              className={activeMenuItem === "findHospitals" ? "active" : ""}
+              // onClick={() => setActiveMenuItem("findHospitals")}
+            >
+          <Link
+            to="/welcome"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+              <span>
+                <img
+                  src={Icon2}
+                  alt=""
+                  width="20px"
+                  style={{ marginRight: "14px", marginBottom: "5px" }}
+                />
+              </span>
+              Find Hospitals
+          </Link>
+            </li>
+            <li
+              className={activeMenuItem === "saved" ? "active" : ""}
+              // onClick={() => setActiveMenuItem("saved")}
+            >
+          <Link
+            to="/savedHospitals"
+            style={{ textDecoration: "none", color: "black" }}
+          >
               <img
-                src={Icon2}
+                src={Icon1}
                 alt=""
                 width="20px"
-                style={{ marginRight: "14px", marginBottom: "5px" }}
+                style={{ marginRight: "14px", marginBottom: "3px" }}
               />
-            </span>
-            Find Hospitals
-          </li>
-          <li>
-            <img
-              src={Icon1}
-              alt=""
-              width="20px"
-              style={{ marginRight: "14px", marginBottom: "3px" }}
-            />
-            Saved
-          </li>
+              Saved
+          </Link>
+            </li>
           {user && (
-            <li>
+            <li
+              className={activeMenuItem === "profile" ? "active" : ""}
+              // onClick={() => setActiveMenuItem("profile")}
+            >
               <span
                 className="rounded-circle"
                 style={{
@@ -488,6 +552,43 @@ const MainNav = () => {
 };
 
 function WelcomePage() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(true); // New state variable
+  useEffect(() => {
+    // Check if user is authenticated
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is authenticated, retrieve user data from Firestore
+        setIsLoading(true); // Set isLoading to true before making the database call
+        firestore
+          .collection("users")
+          .doc(user.uid)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              setUser(doc.data());
+            }
+            setIsLoading(false); // Set isLoading to false after fetching the user data
+          })
+          .catch((error) => {
+            console.error("Error retrieving user data:", error);
+            setIsLoading(false); // Set isLoading to false in case of an error
+          });
+      } else {
+        // User is not authenticated, redirect to the login page
+        navigate("/login");
+      }
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
+  }, [navigate]);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Render loading indicator while fetching user data
+  }
   return (
     <Container fluid style={{}}>
       <MainNav />

@@ -9,6 +9,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Welcome from "./components/welcome";
 import AdminWelcomePage from "./components/adminWelcome";
+import SavedHospitals from "./components/SavedHospitals";
 
 
 
@@ -28,6 +29,7 @@ function App() {
       <Route path="/login" element={<LoginIn />} />
       <Route path="/welcome" element={<Welcome />} />
       <Route path="/adminWelcomePage" element={<AdminWelcomePage />} />
+      <Route path="/savedHospitals" element={<SavedHospitals />} />
       <Route path="/resetpassword" element={<ResetPW />} />
       {/* <Route path="*" element={<PageNotFound />} />  */}
     </Routes>
