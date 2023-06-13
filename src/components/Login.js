@@ -114,7 +114,7 @@ const LoginIn = () => {
             src={frame2}
             alt="buttomLeftImg"
             width="60%"
-            className="absolute left bottom"
+            className="absolute left bottom signUp-Img"
           />
         </Col>
 
@@ -219,7 +219,7 @@ const LoginIn = () => {
             </Button>
             <br />
             {/* <br /> */}
-            <Button className="link-btn no-border btn-bg-inherit">
+            <Button className="link-btn red-cl no-border btn-bg-inherit">
               It's an emergency, connect me quickly
             </Button>
             <br />
@@ -232,7 +232,7 @@ const LoginIn = () => {
             src={frame1}
             alt="buttomRightImg"
             width="60%"
-            className="absolute right bottom"
+            className="absolute right bottom signUp-Img"
           />
         </Col>
       </Row>

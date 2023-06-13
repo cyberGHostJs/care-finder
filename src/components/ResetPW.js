@@ -39,9 +39,6 @@ function ResetPW() {
       <br />
       <br />
       <br />
-      <br />
-      <br />
-      <br />
       <Row style={{ height: "95vh" }}>
         {/* -------buttom image left--------------------- */}
         <Col className="relative">
@@ -49,7 +46,7 @@ function ResetPW() {
             src={frame2}
             alt="buttomLeftImg"
             width="60%"
-            className="absolute left bottom"
+            className="absolute left bottom signUp-Img"
           />
         </Col>
 
@@ -104,7 +101,7 @@ function ResetPW() {
             src={frame1}
             alt="buttomRightImg"
             width="60%"
-            className="absolute right bottom"
+            className="absolute right bottom signUp-Img"
           />
         </Col>
       </Row>

@@ -22,12 +22,12 @@ export function NavSignUpLogin({
 }) {
   return (
     <Row className="grey-border-bottom nav-login-container">
-      <Col xs={{ span: "2", offset: "1" }} className="">
+      <Col xs={{ span: "6", offset: "" }} md={{ span: "2", offset: "1" }} className="">
         <Link to="/">
-          <img src={frame10} alt="" width="60%" />
+          <img src={frame10} alt="" width="60%" className="signUp-logo"/>
         </Link>
       </Col>
-      <Col xs={{ span: "2", offset: "6" }} className="">
+      <Col xs={{ span: "6", offset: "" }} md={{ span: "2", offset: "6" }} className="">
         <Link to={linkTo} style={{ marginLeft: btnMarginLft }}>
           <Button
             className="round-border login-btn "
@@ -166,7 +166,6 @@ function SignUp() {
 
   return (
     <Container fluid className="signUp-conainer">
-      {/*------we can add "fixed" to the class to make it fixed------*/}
       <NavSignUpLogin
         buttonText="Login Instead"
         buttonBgColor="inherit"
@@ -185,7 +184,7 @@ function SignUp() {
             src={frame2}
             alt="buttomLeftImg"
             width="60%"
-            className="absolute left bottom"
+            className="absolute left bottom signUp-Img"
           />
         </Col>
 
@@ -332,7 +331,7 @@ function SignUp() {
             src={frame1}
             alt="buttomRightImg"
             width="60%"
-            className="absolute right bottom"
+            className="absolute right bottom signUp-Img"
           />
         </Col>
       </Row>
@@ -341,103 +340,3 @@ function SignUp() {
 }
 
 export default SignUp;
-
-//====building-block=====//
-// import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { auth, firestore } from "../firebase";
-// import firebase from "firebase/compat/app";
-
-// function SignUp() {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [fullName, setFullName] = useState("");
-//   const [phoneNumber, setPhoneNumber] = useState("");
-//   const navigate = useNavigate();
-
-//   const handleSignUp = async (e) => {
-//     e.preventDefault();
-
-//     try {
-//       // Create user with email and password
-//       const { user } = await auth.createUserWithEmailAndPassword(email, password);
-
-//       // Save additional user data to Firestore
-//       await firestore.collection("users").doc(user.uid).set({
-//         email: user.email,
-//         fullName,
-//         phoneNumber,
-//       });
-
-//       // Clear sign-up form inputs
-//       setEmail("");
-//       setPassword("");
-//       setFullName("");
-//       setPhoneNumber("");
-
-//       // Redirect to the welcome page
-//       navigate("/welcome");
-//     } catch (error) {
-//       console.error("Sign up error:", error);
-//       // Handle sign-up error and display an error message
-//     }
-//   };
-
-//   const handleSignUpWithGmail = async () => {
-//     try {
-//       // Create a Google provider instance
-//       const provider = new firebase.auth.GoogleAuthProvider();
-
-//       // Sign in with Google popup
-//       const { user } = await auth.signInWithPopup(provider);
-
-//       // Save additional user data to Firestore
-//       await firestore.collection("users").doc(user.uid).set({
-//         email: user.email,
-//         fullName: user.displayName,
-//         phoneNumber: user.phoneNumber,
-//       });
-
-//       // Redirect to the welcome page
-//       navigate("/welcome");
-//     } catch (error) {
-//       console.error("Sign up with Gmail error:", error);
-//       // Handle sign-up error with Gmail and display an error message
-//     }
-//   };
-
-//   return (
-//     <form>
-//       <input
-//         type="email"
-//         value={email}
-//         onChange={(e) => setEmail(e.target.value)}
-//         placeholder="Email"
-//       />
-//       <input
-//         type="password"
-//         value={password}
-//         onChange={(e) => setPassword(e.target.value)}
-//         placeholder="Password"
-//       />
-//       <input
-//         type="text"
-//         value={fullName}
-//         onChange={(e) => setFullName(e.target.value)}
-//         placeholder="Full Name"
-//       />
-//       <input
-//         type="text"
-//         value={phoneNumber}
-//         onChange={(e) => setPhoneNumber(e.target.value)}
-//         placeholder="Phone Number"
-//       />
-//       <button type="submit" onClick={handleSignUp}>
-//         Sign Up
-//       </button>
-//       <button onClick={handleSignUpWithGmail}>Sign Up with Gmail</button>
-//     </form>
-//   );
-// }
-
-// export default SignUp;

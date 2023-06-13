@@ -67,7 +67,7 @@
   color: red !important;
 }
 .blue-cl {
-  color: #0352FD !important;
+  color: #0352fd !important;
 }
 .link-btn {
   text-decoration: underline !important;
@@ -88,3 +88,31 @@
   padding: 4% 15% !important;
   font-size: 15px !important;
 }
+
+/*------MEDIA QUERY---------*/
+/*------Media Query----768px-----*/
+@media screen and (max-width: 768px) {
+  .nav-login-container{
+    padding: 3.5% 0;
+  }
+  .signUp-logo{
+    margin-top: 4%;
+  }
+  .signUp-Img {
+    display: none;
+  }
+}
+
+/*------Media Query----480px-----*/
+@media screen and (max-width: 480px) {
+  .nav-login-container{
+    padding: 3.5% 0;
+  }
+  .signUp-logo{
+    margin-top: 4%;
+  }
+  .signUp-Img {
+    display: none;
+  }
+}
+
