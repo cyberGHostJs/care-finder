@@ -10,7 +10,7 @@ import frame10 from "../images/Frame10.png";
 import Icon1 from "../images/Icon1.png";
 import loved from "../images/loved.png";
 import redlove from "../images/redlove.svg";
-import { MainNav } from "../components/welcome";
+import {  NavBar } from "../components/welcome";
 // import dropdownicon from "../images/dropdownicon.png";
 import Icon2 from "../images/Icon2.png";
 import Icon3 from "../images/Icon3.png";
@@ -85,7 +85,7 @@ const SavedHospital = () => {
 
   return (
     <Container>
-      <MainNav />
+      <NavBar />
       {savedHospitals.length === 0 ? (
         <p>No saved hospitals found.</p>
       ) : (

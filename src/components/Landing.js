@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, firestore } from "../firebase";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Navbar, Nav } from "react-bootstrap";
 
 const HospitalsDataBase = () => {
   const [hospitalTag, setHospitalTag] = useState("");
@@ -65,35 +66,19 @@ const HospitalsDataBase = () => {
     );
     setFilteredHospitals(matchedHospitals);
   };
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      // Sign out the user
-      await auth.signOut();
-
-      // Clear the Google sign-in session
-      await firebase.auth().signOut();
-
-      // Redirect to the login page
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout error:", error);
-      // Handle logout error and display an error message
-    }
-  };
 
   return (
     <div>
-      <Row className="grey-border-bottom">
+      <Row className="grey-border-bottom" style={{ padding: "3% 0%" }}>
         <Col
-          lg={{ span: "7", offset: "" }}
+          xs={{ span: "8", offset: "" }}
+          lg={{ span: "5", offset: "" }}
           className=""
-          style={{ display: "flex", padding: "1%" }}
+          style={{ paddingTop: "1%", paddingLeft: "5%" }}
         >
           <Form.Group
             controlId="formBasicSearch"
-            style={{ marginTop: "1%", marginLeft: "9%", width: "60%" }}
+            style={{ width: "95%" }}
             className=""
           >
             <div className="search-input-group">
@@ -121,70 +106,59 @@ const HospitalsDataBase = () => {
               </Button>
             </div>
           </Form.Group>
-          <div
-            style={{
-              borderLeft: "1px solid grey",
-              paddingLeft: "4%",
-              marginLeft: "4%",
-              width: "40%",
-            }}
-          >
+        </Col>
+        <Col
+          xs={{ span: "2", offset: "" }}
+          lg={{ span: "2", offset: "" }}
+          style={{
+            borderLeft: "1px solid black",
+            paddingTop: "1.35%",
+            paddingLeft: "2.5%",
+          }}
+        >
+          <div style={{}}>
             <Form.Group
               controlId="exampleForm.SelectCustomSizeSm"
-              style={{ marginTop: "0%", width: "50%" }}
+              style={{ position: "relative" }}
             >
-              <div style={{ position: "relative" }}>
-                <span
-                  style={{
-                    position: "absolute",
-                    width: "10%",
-                    left: "7%",
-                    top: "13%",
-                  }}
-                >
-                  <img
-                    src={filtericon}
-                    alt="flterIcon"
-                    width="100%"
-                    style={{ right: "50%" }}
-                  />
-                </span>
-                {/* Filter by hospital tags */}
-                <Form.Control
-                  as="select"
-                  size="sm"
-                  className="round-border input-font-size input-padding-lf input-margin-buttom"
-                  custom
-                  value={hospitalTag}
-                  onChange={(e) => setHospitalTag(e.target.value)}
-                  style={{ padding: "5%", marginTop: " 12%" }}
-                >
-                  <option value="" style={{ textAlign: "center" }}>
-                    Filters
+              <span className="filta-img" style={{}}>
+                <img src={filtericon} alt="flterIcon" width="100%" style={{}} />
+              </span>
+              {/* Filter by hospital tags */}
+              <Form.Control
+                as="select"
+                // size="sm"
+                className="round-border filta"
+                custom
+                value={hospitalTag}
+                onChange={(e) => setHospitalTag(e.target.value)}
+                style={{}}
+              >
+                <option value="" style={{}}>
+                  Filters
+                </option>
+                {availableTags.map((tag) => (
+                  <option style={{}} key={tag} value={tag}>
+                    {tag}
                   </option>
-                  {availableTags.map((tag) => (
-                    <option
-                      style={{ textAlign: "center" }}
-                      key={tag}
-                      value={tag}
-                    >
-                      {tag}
-                    </option>
-                  ))}
-                </Form.Control>
-              </div>
+                ))}
+              </Form.Control>
             </Form.Group>
           </div>
         </Col>
-        <Col lg={{ span: "5", offset: "" }} className="">
+        <Col
+          xs={{ span: "2", offset: "" }}
+          lg={{ span: "3", offset: "2" }}
+          className=""
+          style={{ paddingTop: "1.35%" }}
+        >
           <Button
             variant="success"
-            style={{ width: "38%", marginLeft: "47%", marginTop: "4.5%" }}
-            className="round-border"
-            // onClick={handleLogout}
+            style={{}}
+            className="round-border expt-cvs-btn"
           >
-            <img src={downloadicon} alt="" width="20px" />
-            <span style={{ marginLeft: "7%" }}>Export list as CVS</span>
+            <img src={downloadicon} alt="" width="20px" className="cvs-img" />
+            <span className="expt-cvs">Export list as CVS</span>
           </Button>
         </Col>
       </Row>
@@ -270,9 +244,9 @@ const HospitalsDataBase = () => {
   );
 };
 
-const MainNav = () => {
-  const [isNavFixed, setIsNavFixed] = useState(false);
 
+const NavBar = () => {
+  const [isNavFixed, setIsNavFixed] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
@@ -288,73 +262,73 @@ const MainNav = () => {
     };
   }, []);
   return (
-    <Row
-      style={{ padding: "1% 5%" }}
+    <Navbar
+      bg=""
+      expand="lg"
       className={
-        isNavFixed ? "fixed-top grey-border-bottom" : "grey-border-bottom"
+        isNavFixed ? "fixed-top" : "grey-border-bottom"
       }
+      style={{
+        padding : "1.5% 0"
+      }}
     >
-      <Col className="">
-        <img src={frame10} alt="" width="40%" />
-      </Col>
-      <Col
-        className=""
-        lg={{ span: "5", offset: "4" }}
-        style={{ padding: "0%" }}
+      <Navbar.Brand
+        href="/"
+        className="nav-brand-landing"
       >
-        <ul
-          className="MainNav-Ul"
-          style={{
-            listStyle: "none",
-            display: "flex",
-            margin: "0",
-          }}
+        <img src={frame10} alt="" width="30%" className="nav-brand-img" />
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav
+          className="ml-auto nav-landing"
         >
-          <li>
-            <span>
-              <img
-                src={Icon2}
-                alt=""
-                width="20px"
-                style={{ marginRight: "14px", marginBottom: "5px" }}
-              />
-            </span>
+          <Nav.Link
+            href="/"
+            className="find-hospital"
+          >
+            <img
+              src={Icon2}
+              alt=""
+              width="20px"
+              className="find-hospital-img"
+            />
             Find Hospitals
-          </li>
-          <li>
+          </Nav.Link>
+          <Nav.Link
+            href="/savedHospitals"
+            className="saved-hospital"
+          >
             <img
               src={Icon1}
               alt=""
               width="20px"
-              style={{ marginRight: "14px", marginBottom: "3px" }}
+              className="saved-hospital-img"
             />
             Saved
-          </li>
-          <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-            <li>
-              <span
-                className="rounded-circle"
-                style={{
-                  backgroundColor: "#D9D9D9",
-                  marginRight: "14px",
-                  padding: "2px 6px",
-                }}
-              >
-                <img src={Icon3} alt="" width="12px" style={{}} />
-              </span>
-              My Profile
-            </li>
-          </Link>
-        </ul>
-      </Col>
-    </Row>
+          </Nav.Link>
+          <Nav.Link
+            href="/login"
+            className="my-profile"
+          >
+            <img
+              src={Icon3}
+              alt=""
+              width="22px"
+              className="rounded-circle my-profile-img"
+            />
+            My Profile
+          </Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 
 function Landing() {
   return (
     <Container fluid style={{}}>
-      <MainNav />
+      <NavBar />
       <HospitalsDataBase />
     </Container>
   );

@@ -1,5 +1,6 @@
 import "./styles/signUp.css";
 import "./styles/Landing.css";
+import "./styles/nav.css";
 import SignUp from "./components/SignUp";
 import AdminSignup from "./components/adminSignup";
 import LoginIn from "./components/Login";

@@ -19,6 +19,8 @@ import { auth, firestore } from "../firebase";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { CSVLink } from "react-csv";
+import { Navbar, Nav } from "react-bootstrap";
+
 
 const HospitalsDataBase = () => {
   const [hospitalTag, setHospitalTag] = useState("");
@@ -156,6 +158,7 @@ const HospitalsDataBase = () => {
       <Row className="grey-border-bottom">
         <Col
           lg={{ span: "7", offset: "" }}
+          // xs={{ span: "12", offset: "" }}
           className=""
           style={{ display: "flex", padding: "1%" }}
         >
@@ -189,7 +192,7 @@ const HospitalsDataBase = () => {
               </Button>
             </div>
           </Form.Group>
-          <div
+          <div className="flter"
             style={{
               borderLeft: "1px solid grey",
               paddingLeft: "4%",
@@ -244,11 +247,12 @@ const HospitalsDataBase = () => {
             </Form.Group>
           </div>
         </Col>
+        
         <Col lg={{ span: "5", offset: "" }} className="">
           <Button
             variant="success"
             style={{ width: "38%", marginLeft: "47%", marginTop: "4.5%" }}
-            className="round-border"
+            className="round-border download-cvs-btn"
             // onClick={handleSearch}
             onClick={handleLogout}
           >
@@ -396,17 +400,17 @@ const HospitalsDataBase = () => {
   );
 };
 
-export const MainNav = () => {
+export const NavBar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
+  const [activeMenuItem, setActiveMenuItem] = useState("findHospitals");
+  const location = useLocation();
   const [isNavFixed, setIsNavFixed] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // 
 
-
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
+      if (window.scrollY > 100) {
         setIsNavFixed(true);
       } else {
         setIsNavFixed(false);
@@ -418,9 +422,6 @@ export const MainNav = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  const [activeMenuItem, setActiveMenuItem] = useState("findHospitals");
-  const location = useLocation();
 
   useEffect(() => {
     // Update activeMenuItem based on the current location
@@ -463,91 +464,76 @@ export const MainNav = () => {
     return () => unsubscribe();
   }, [navigate]);
 
-
   if (isLoading) {
-    return <div></div>; // Render loading indicator while fetching user data
+    return <div>loading...</div>; // Render loading indicator while fetching user data
   }
 
   return (
-    <Row
-      style={{ padding: "1% 5%" }}
+    <Navbar
+      bg=""
+      expand="lg"
       className={
-        isNavFixed ? "fixed-top grey-border-bottom" : "grey-border-bottom"
+        isNavFixed ? "fixed-top" : "grey-border-bottom"
       }
+      style={{
+        padding : "1.5% 0"
+      }}
     >
-      <Col className="">
-        <img src={frame10} alt="" width="40%" />
-      </Col>
-      <Col
-        className="navbar"
-        lg={{ span: "5", offset: "4" }}
-        style={{ padding: "0%" }}
+      <Navbar.Brand
+        href="/welcome"
+        className="nav-brand-landing"
       >
-        <ul
-          className="MainNav-Ul"
-          style={{
-            listStyle: "none",
-            display: "flex",
-            margin: "0",
-          }}
+        <img src={frame10} alt="" width="30%" className="nav-brand-img" />
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav
+          className="ml-auto nav-landing"
         >
-            <li
-              className={activeMenuItem === "findHospitals" ? "active" : ""}
-              // onClick={() => setActiveMenuItem("findHospitals")}
-            >
-          <Link
-            to="/welcome"
-            style={{ textDecoration: "none", color: "black" }}
+          <Nav.Link
+            href="/welcome"
+            className={activeMenuItem === "findHospitals" ? "active find-hospital" : "find-hospital"}
+            // className="find-hospital"
           >
-              <span>
-                <img
-                  src={Icon2}
-                  alt=""
-                  width="20px"
-                  style={{ marginRight: "14px", marginBottom: "5px" }}
-                />
-              </span>
-              Find Hospitals
-          </Link>
-            </li>
-            <li
-              className={activeMenuItem === "saved" ? "active" : ""}
-              // onClick={() => setActiveMenuItem("saved")}
-            >
+            <img
+              src={Icon2}
+              alt=""
+              width="20px"
+              className="find-hospital-img"
+            />
+            Find Hospitals
+          </Nav.Link>
           <Link
             to="/savedHospitals"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-              <img
-                src={Icon1}
-                alt=""
-                width="20px"
-                style={{ marginRight: "14px", marginBottom: "3px" }}
-              />
-              Saved
+            className={activeMenuItem === "saved" ? "active saved-hospital" : "saved-hospital"}
+            style={{ textDecoration: "none", color: "grey" }}          >
+            <img
+              src={Icon1}
+              alt=""
+              width="20px"
+              className="saved-hospital-img"
+            />
+            Saved
           </Link>
-            </li>
           {user && (
-            <li
-              className={activeMenuItem === "profile" ? "active" : ""}
-              // onClick={() => setActiveMenuItem("profile")}
-            >
-              <span
-                className="rounded-circle"
-                style={{
-                  backgroundColor: "#D9D9D9",
-                  marginRight: "14px",
-                  padding: "2px 6px",
-                }}
-              >
-                <img src={Icon3} alt="" width="12px" style={{}} />
-              </span>
-              {user.fullName}
-            </li>
+          <Nav.Link
+            href="/welcome"
+            className={activeMenuItem === "profile" ? "active my-profile" : "my-profile"}
+            // className="my-profile"
+          >
+            <img
+              src={Icon3}
+              alt=""
+              width="22px"
+              className="rounded-circle my-profile-img"
+            />
+            {user.fullName}
+          </Nav.Link>
           )}
-        </ul>
-      </Col>
-    </Row>
+
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 
@@ -591,7 +577,7 @@ function WelcomePage() {
   }
   return (
     <Container fluid style={{}}>
-      <MainNav />
+      <NavBar />
       <HospitalsDataBase />
     </Container>
   );

@@ -1,0 +1,54 @@
+/* ---MY NAV BAR---- */
+.nav-brand-landing {
+    padding: 0 5%;
+  }
+  .nav-landing {
+    width: 95%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .find-hospital {
+    position: relative;
+    white-space: nowrap;
+    padding: 0 7% !important;
+    width: auto;
+  }
+  .find-hospital-img{
+    position: absolute;
+    top: 0%;
+    left: 0; 
+  }
+  .saved-hospital{
+    position: relative;
+    white-space: nowrap;
+    padding: 0 7% !important;
+    width: auto;
+  }
+  .saved-hospital-img{
+    position: absolute;
+    top: 0%;
+    left: 0; 
+  }
+  .my-profile{
+    position: relative;
+    white-space: nowrap;
+    padding: 0 7% !important;
+    width: auto;
+  }
+  .my-profile-img{
+    position: absolute;
+    top: 0%;
+    left: 0;
+    background: #D9D9D9;
+    padding: 4% !important;
+  }
+  
+  @media screen and (max-width: 665px) {
+    .nav-brand-landing {
+      width: 70%;
+    }
+    .nav-brand-img{
+      width: 60%;
+    }
+  }
+  
