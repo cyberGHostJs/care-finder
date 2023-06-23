@@ -69,23 +69,23 @@ const HospitalsDataBase = () => {
 
   return (
     <div>
-      <Row className="grey-border-bottom" style={{ padding: "3% 0%" }}>
+      <Row className="grey-border-bottom sec-paddin">
         <Col
           xs={{ span: "8", offset: "" }}
           lg={{ span: "5", offset: "" }}
-          className=""
-          style={{ paddingTop: "1%", paddingLeft: "5%" }}
+          className="d-flex align-items-center justify-content-center"
         >
           <Form.Group
             controlId="formBasicSearch"
-            style={{ width: "95%" }}
-            className=""
+            // style={{ width: "95%" }}
+            className="search-container"
           >
-            <div className="search-input-group">
+            {/* start */}
+            {/* <div className="search-input-group"> */}
               <Form.Control
-                style={{ padding: "2.5%" }}
+                // style={{ padding: "2.5%" }}
                 required
-                className="round-border input-font-size input-padding-lf input-margin-buttom"
+                className="search-input"
                 type="text"
                 placeholder="Search by location"
                 value={searchQuery}
@@ -96,24 +96,23 @@ const HospitalsDataBase = () => {
                 className="round-border search-button"
                 // onClick={handleSearch}
               >
-                <img
+                {/* <img
                   src={Icon8}
                   alt=""
                   width="20px"
                   style={{ marginRight: "10%", marginBottom: "5%" }}
-                />
+                /> */}
                 Search
               </Button>
-            </div>
+            {/* </div> */}
           </Form.Group>
         </Col>
         <Col
+        className="d-flex align-items-center justify-content-center"
           xs={{ span: "2", offset: "" }}
           lg={{ span: "2", offset: "" }}
           style={{
-            borderLeft: "1px solid black",
-            paddingTop: "1.35%",
-            paddingLeft: "2.5%",
+            borderLeft: "1px solid grey",
           }}
         >
           <div style={{}}>
@@ -149,8 +148,7 @@ const HospitalsDataBase = () => {
         <Col
           xs={{ span: "2", offset: "" }}
           lg={{ span: "3", offset: "2" }}
-          className=""
-          style={{ paddingTop: "1.35%" }}
+          className="d-flex align-items-center justify-content-center"
         >
           <Button
             variant="success"
@@ -262,6 +260,7 @@ const NavBar = () => {
     };
   }, []);
   return (
+    <Row>
     <Navbar
       bg=""
       expand="lg"
@@ -269,7 +268,7 @@ const NavBar = () => {
         isNavFixed ? "fixed-top" : "grey-border-bottom"
       }
       style={{
-        padding : "1.5% 0"
+        padding : "1.5% 0",
       }}
     >
       <Navbar.Brand
@@ -322,6 +321,7 @@ const NavBar = () => {
         </Nav>
       </Navbar.Collapse>
     </Navbar>
+    </Row>
   );
 };
 
