@@ -224,11 +224,22 @@ const HospitalsDataBase = () => {
           <Button
             variant="success"
             className="round-border expt-cvs-btn"
-            // onClick={handleSearch}
-            onClick={handleLogout}
+            onClick={handleExport}
           >
-            <img src={downloadicon} alt="" width="20px" className="cvs-img" />
-            <span className="expt-cvs">{/*Export list as CVS*/} logout</span>
+            <CSVLink
+            style={{ color: "white", textDecoration: "none", fontSize: "15px"}}
+              data={exportedData}
+              filename="search_results.csv"
+              headers={[
+                { label: "Name", key: "name" },
+                { label: "Address", key: "address" },
+                { label: "Email", key: "email" },
+                { label: "Phone", key: "phone" },
+              ]}
+            >
+              <img src={downloadicon} alt="" width="20px" className="cvs-img" />
+              <span className="expt-cvs">Export as CVS</span>
+            </CSVLink>
           </Button>
         </Col>
       </Row>
@@ -350,8 +361,7 @@ const HospitalsDataBase = () => {
               )
           )}
 
-          <button onClick={handleExport}>Export as CSV</button>
-          <CSVLink
+          {/* <CSVLink
             data={exportedData}
             filename="search_results.csv"
             headers={[
@@ -360,9 +370,9 @@ const HospitalsDataBase = () => {
               { label: "Email", key: "email" },
               { label: "Phone", key: "phone" },
             ]}
-          >
-            Download CSV
-          </CSVLink>
+          > */}
+          <button onClick={handleLogout}> Log Out</button>
+          {/* </CSVLink> */}
         </Row>
       )}
     </div>
