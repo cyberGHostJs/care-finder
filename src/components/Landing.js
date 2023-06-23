@@ -77,13 +77,9 @@ const HospitalsDataBase = () => {
         >
           <Form.Group
             controlId="formBasicSearch"
-            // style={{ width: "95%" }}
             className="search-container"
           >
-            {/* start */}
-            {/* <div className="search-input-group"> */}
               <Form.Control
-                // style={{ padding: "2.5%" }}
                 required
                 className="search-input"
                 type="text"
@@ -94,7 +90,6 @@ const HospitalsDataBase = () => {
               <Button
                 variant="success"
                 className="round-border search-button"
-                // onClick={handleSearch}
               >
                 {/* <img
                   src={Icon8}
@@ -104,7 +99,6 @@ const HospitalsDataBase = () => {
                 /> */}
                 Search
               </Button>
-            {/* </div> */}
           </Form.Group>
         </Col>
         <Col
@@ -115,13 +109,13 @@ const HospitalsDataBase = () => {
             borderLeft: "1px solid grey",
           }}
         >
-          <div style={{}}>
+          <div>
             <Form.Group
               controlId="exampleForm.SelectCustomSizeSm"
               style={{ position: "relative" }}
             >
-              <span className="filta-img" style={{}}>
-                <img src={filtericon} alt="flterIcon" width="100%" style={{}} />
+              <span className="filta-img">
+                <img src={filtericon} alt="flterIcon" width="100%"/>
               </span>
               {/* Filter by hospital tags */}
               <Form.Control
@@ -131,13 +125,12 @@ const HospitalsDataBase = () => {
                 custom
                 value={hospitalTag}
                 onChange={(e) => setHospitalTag(e.target.value)}
-                style={{}}
               >
-                <option value="" style={{}}>
+                <option value="">
                   Filters
                 </option>
                 {availableTags.map((tag) => (
-                  <option style={{}} key={tag} value={tag}>
+                  <option key={tag} value={tag}>
                     {tag}
                   </option>
                 ))}
@@ -145,6 +138,7 @@ const HospitalsDataBase = () => {
             </Form.Group>
           </div>
         </Col>
+
         <Col
           xs={{ span: "2", offset: "" }}
           lg={{ span: "3", offset: "2" }}
@@ -152,7 +146,6 @@ const HospitalsDataBase = () => {
         >
           <Button
             variant="success"
-            style={{}}
             className="round-border expt-cvs-btn"
           >
             <img src={downloadicon} alt="" width="20px" className="cvs-img" />
