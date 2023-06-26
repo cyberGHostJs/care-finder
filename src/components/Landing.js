@@ -228,8 +228,11 @@ const NavBar = () => {
   const [activeMenuItem, setActiveMenuItem] = useState("findHospitals");
   const [isNavFixed, setIsNavFixed] = useState(false);
   const [nav, setNav] = useState(false);
+  const [menuButtonColor, setMenuButtonColor] = useState('none');
+
 
   const HandleNav = () => {
+    setMenuButtonColor(nav ? 'none' : 'white'); // Toggle between black and white
     setNav(!nav);
     if (!nav) {
       document.body.style.overflow = "hidden";
@@ -267,6 +270,7 @@ const NavBar = () => {
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
           className="nav-menu"
+          style={{ background: menuButtonColor}}
           onClick={HandleNav}
         />
         <Navbar.Collapse id="basic-navbar-nav">
