@@ -227,7 +227,11 @@ const HospitalsDataBase = () => {
             onClick={handleExport}
           >
             <CSVLink
-            style={{ color: "white", textDecoration: "none", fontSize: "15px"}}
+              style={{
+                color: "white",
+                textDecoration: "none",
+                fontSize: "15px",
+              }}
               data={exportedData}
               filename="search_results.csv"
               headers={[
@@ -386,6 +390,16 @@ export const NavBar = () => {
   const location = useLocation();
   const [isNavFixed, setIsNavFixed] = useState(false);
   const [isLoading, setIsLoading] = useState(true); //
+  const [nav, setNav] = useState(false);
+
+  const HandleNav = () => {
+    setNav(!nav);
+    if (!nav) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "scroll";
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -459,15 +473,31 @@ export const NavBar = () => {
         <Navbar.Brand href="/welcome" className="nav-brand-landing">
           <img src={frame10} alt="" width="30%" className="nav-brand-img" />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          className="nav-menu"
+          onClick={HandleNav}
+        />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto nav-landing">
-            <Nav.Link
-              href="/welcome"
+          <Nav
+            className={
+              nav
+                ? "ml-auto nav-landing nav-landing2"
+                : "ml-auto nav-landing nav-landing3"
+            }
+          >
+            <Link
+              onClick={() => {
+                if (activeMenuItem === "findHospitals") {
+                } else {
+                  document.body.style.overflow = "scroll";
+                }
+              }}
+              to="/welcome"
               className={
                 activeMenuItem === "findHospitals"
-                  ? "active find-hospital"
-                  : "find-hospital"
+                  ? "nav-color-active find-hospital"
+                  : "find-hospital nav-color"
               }
               // className="find-hospital"
             >
@@ -478,15 +508,20 @@ export const NavBar = () => {
                 className="find-hospital-img"
               />
               Find Hospitals
-            </Nav.Link>
+            </Link>
             <Link
+              onClick={() => {
+                if (activeMenuItem === "saved") {
+                } else {
+                  document.body.style.overflow = "scroll";
+                }
+              }}
               to="/savedHospitals"
               className={
                 activeMenuItem === "saved"
-                  ? "active saved-hospital"
-                  : "saved-hospital"
+                  ? "nav-color-active saved-hospital"
+                  : "saved-hospital nav-color"
               }
-              style={{ textDecoration: "none", color: "grey" }}
             >
               <img
                 src={Icon1}
@@ -497,12 +532,18 @@ export const NavBar = () => {
               Saved
             </Link>
             {user && (
-              <Nav.Link
-                href="/welcome"
+              <Link
+              // onClick={() => {
+              //   if (activeMenuItem === "profile") {
+              //   } else {
+              //     document.body.style.overflow = "scroll";
+              //   }
+              // }}
+              //   to="/welcome"
                 className={
                   activeMenuItem === "profile"
-                    ? "active my-profile"
-                    : "my-profile"
+                    ? "nav-color-active my-profile"
+                    : "my-profile nav-color"
                 }
                 // className="my-profile"
               >
@@ -513,7 +554,7 @@ export const NavBar = () => {
                   className="rounded-circle my-profile-img"
                 />
                 {user.fullName}
-              </Nav.Link>
+              </Link>
             )}
           </Nav>
         </Navbar.Collapse>

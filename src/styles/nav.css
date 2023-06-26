@@ -1,54 +1,131 @@
 /* ---MY NAV BAR---- */
 .nav-brand-landing {
-    padding: 0 5%;
+  padding: 0 5%;
+}
+.nav-landing {
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+}
+.find-hospital {
+  position: relative;
+  white-space: nowrap;
+  padding: 0 7% !important;
+  width: auto;
+}
+.find-hospital-img {
+  position: absolute;
+  top: 0%;
+  left: 0;
+}
+.saved-hospital {
+  position: relative;
+  white-space: nowrap;
+  padding: 0 7% !important;
+  width: auto;
+}
+.saved-hospital-img {
+  position: absolute;
+  top: 0%;
+  left: 0;
+}
+.my-profile {
+  position: relative;
+  white-space: nowrap;
+  padding: 0 7% !important;
+  width: auto;
+}
+.my-profile-img {
+  position: absolute;
+  top: 0%;
+  left: 0;
+  background: #d9d9d9;
+  padding: 4% !important;
+}
+.nav-color {
+  color: black;
+  opacity: 0.75;
+  text-decoration: none;
+}
+.nav-color-active{
+  color: black;
+  text-decoration: none;
+}
+.nav-color-active:hover{
+  color: black;
+  text-decoration: none;
+}
+.nav-color:hover{
+  color: black;
+  opacity: 1;
+  text-decoration: none;
+}
+.nav-menu{
+  z-index: 20;
+}
+@media screen and (max-width: 991px) {
+  .nav-landing2 {
+    border: 1px solid black;
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    transition-duration: 300ms;
+    position: fixed;
+    color: white !important;
+    /* color: rgb(209 213 219 / var(--tw-text-opacity)); */
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(0 0 0 / 0.9);
+    padding-left: 1rem /* 16px */;
+    padding-right: 1rem /* 16px */;
+    padding-top: 1.75rem /* 28px */;
+    padding-bottom: 1.75rem /* 28px */;
+    flex-direction: column;
+    z-index: 10;
+  }
+  .nav-landing3 {
+    position: absolute;
+    top: 0px;
+    height: 100vh;
+    left: -100%;
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    transition-duration: 500ms;
+    z-index: 10;
+  }
+  .nav-color {
+    color: white;
+    opacity: 0.75;
+    text-decoration: none;
+  }
+  .nav-color-active{
+    color: white;
+    text-decoration: none;
+  }
+  .nav-color-active:hover{
+    color: white;
+    text-decoration: none;
+  }
+  .nav-color:hover{
+    color: white;
+    opacity: 1;
+    text-decoration: none;
   }
   .nav-landing {
-    width: 95%;
     display: flex;
-    justify-content: flex-end;
-  }
-  .find-hospital {
-    position: relative;
-    white-space: nowrap;
-    padding: 0 7% !important;
-    width: auto;
-  }
-  .find-hospital-img{
-    position: absolute;
-    top: 0%;
-    left: 0; 
+    justify-content: center;
+    align-items: center;
   }
   .saved-hospital{
-    position: relative;
-    white-space: nowrap;
-    padding: 0 7% !important;
-    width: auto;
-  }
-  .saved-hospital-img{
-    position: absolute;
-    top: 0%;
-    left: 0; 
-  }
-  .my-profile{
-    position: relative;
-    white-space: nowrap;
-    padding: 0 7% !important;
-    width: auto;
-  }
-  .my-profile-img{
-    position: absolute;
-    top: 0%;
-    left: 0;
-    background: #D9D9D9;
-    padding: 4% !important;
+    margin: 9% auto !important;
   }
   
-  @media screen and (max-width: 665px) {
-    .nav-brand-landing {
-      width: 70%;
-    }
-    .nav-brand-img{
-      width: 60%;
-    }
+}
+
+@media screen and (max-width: 665px) {
+  .nav-brand-landing {
+    width: 70%;
   }
-  
+  .nav-brand-img {
+    width: 60%;
+  }
+}

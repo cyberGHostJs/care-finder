@@ -75,34 +75,28 @@ const HospitalsDataBase = () => {
           lg={{ span: "5", offset: "" }}
           className="d-flex align-items-center justify-content-center"
         >
-          <Form.Group
-            controlId="formBasicSearch"
-            className="search-container"
-          >
-              <Form.Control
-                required
-                className="search-input"
-                type="text"
-                placeholder="Search by location"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Button
-                variant="success"
-                className="round-border search-button"
-              >
-                {/* <img
+          <Form.Group controlId="formBasicSearch" className="search-container">
+            <Form.Control
+              required
+              className="search-input"
+              type="text"
+              placeholder="Search by location"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Button variant="success" className="round-border search-button">
+              {/* <img
                   src={Icon8}
                   alt=""
                   width="20px"
                   style={{ marginRight: "10%", marginBottom: "5%" }}
                 /> */}
-                Search
-              </Button>
+              Search
+            </Button>
           </Form.Group>
         </Col>
         <Col
-        className="d-flex align-items-center justify-content-center"
+          className="d-flex align-items-center justify-content-center"
           xs={{ span: "2", offset: "" }}
           lg={{ span: "2", offset: "" }}
           style={{
@@ -115,7 +109,7 @@ const HospitalsDataBase = () => {
               style={{ position: "relative" }}
             >
               <span className="filta-img">
-                <img src={filtericon} alt="flterIcon" width="100%"/>
+                <img src={filtericon} alt="flterIcon" width="100%" />
               </span>
               {/* Filter by hospital tags */}
               <Form.Control
@@ -126,9 +120,7 @@ const HospitalsDataBase = () => {
                 value={hospitalTag}
                 onChange={(e) => setHospitalTag(e.target.value)}
               >
-                <option value="">
-                  Filters
-                </option>
+                <option value="">Filters</option>
                 {availableTags.map((tag) => (
                   <option key={tag} value={tag}>
                     {tag}
@@ -144,10 +136,7 @@ const HospitalsDataBase = () => {
           lg={{ span: "3", offset: "2" }}
           className="d-flex align-items-center justify-content-center"
         >
-          <Button
-            variant="success"
-            className="round-border expt-cvs-btn"
-          >
+          <Button variant="success" className="round-border expt-cvs-btn">
             <img src={downloadicon} alt="" width="20px" className="cvs-img" />
             <span className="expt-cvs">Export list as CVS</span>
           </Button>
@@ -235,9 +224,19 @@ const HospitalsDataBase = () => {
   );
 };
 
-
 const NavBar = () => {
+  const [activeMenuItem, setActiveMenuItem] = useState("findHospitals");
   const [isNavFixed, setIsNavFixed] = useState(false);
+  const [nav, setNav] = useState(false);
+
+  const HandleNav = () => {
+    setNav(!nav);
+    if (!nav) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "scroll";
+    }
+  };
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
@@ -254,66 +253,93 @@ const NavBar = () => {
   }, []);
   return (
     <Row>
-    <Navbar
-      bg=""
-      expand="lg"
-      className={
-        isNavFixed ? "fixed-top" : "grey-border-bottom"
-      }
-      style={{
-        padding : "1.5% 0",
-      }}
-    >
-      <Navbar.Brand
-        href="/"
-        className="nav-brand-landing"
+      <Navbar
+        bg=""
+        expand="lg"
+        className={isNavFixed ? "fixed-top" : "grey-border-bottom"}
+        style={{
+          padding: "1.5% 0",
+        }}
       >
-        <img src={frame10} alt="" width="30%" className="nav-brand-img" />
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav
-          className="ml-auto nav-landing"
-        >
-          <Nav.Link
-            href="/"
-            className="find-hospital"
+        <Navbar.Brand href="/" className="nav-brand-landing">
+          <img src={frame10} alt="" width="30%" className="nav-brand-img" />
+        </Navbar.Brand>
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          className="nav-menu"
+          onClick={HandleNav}
+        />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav
+            className={
+              nav
+                ? "ml-auto nav-landing nav-landing2"
+                : "ml-auto nav-landing nav-landing3"
+            }
           >
-            <img
-              src={Icon2}
-              alt=""
-              width="20px"
-              className="find-hospital-img"
-            />
-            Find Hospitals
-          </Nav.Link>
-          <Nav.Link
-            href="/savedHospitals"
-            className="saved-hospital"
-          >
-            <img
-              src={Icon1}
-              alt=""
-              width="20px"
-              className="saved-hospital-img"
-            />
-            Saved
-          </Nav.Link>
-          <Nav.Link
-            href="/login"
-            className="my-profile"
-          >
-            <img
-              src={Icon3}
-              alt=""
-              width="22px"
-              className="rounded-circle my-profile-img"
-            />
-            My Profile
-          </Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+            <Link
+              to="/"
+              className={
+                activeMenuItem === "findHospitals"
+                  ? "nav-color-active find-hospital"
+                  : "find-hospital nav-color"
+              }
+            >
+              <img
+                src={Icon2}
+                alt=""
+                width="20px"
+                className="find-hospital-img"
+              />
+              Find Hospitals
+            </Link>
+            <Link
+            onClick={() => {
+              if (activeMenuItem === "savedHospitals") {
+              } else {
+                document.body.style.overflow = "scroll";
+              }
+            }}
+              to="/savedHospitals"
+              className={
+                activeMenuItem === "saved"
+                  ? "nav-color-active saved-hospital"
+                  : "saved-hospital nav-color"
+              }
+            >
+              <img
+                src={Icon1}
+                alt=""
+                width="20px"
+                className="saved-hospital-img"
+              />
+              Saved
+            </Link>
+            <Link
+            onClick={() => {
+              if (activeMenuItem === "savedHospitals") {
+              } else {
+                document.body.style.overflow = "scroll";
+              }
+            }}
+              to="/welcome"
+              className={
+                activeMenuItem === "profile"
+                  ? "nav-color-active my-profile"
+                  : "my-profile nav-color"
+              }
+            >
+              <img
+                src={Icon3}
+                alt=""
+                width="22px"
+                className="rounded-circle my-profile-img"
+              />
+              My Profile
+            </Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     </Row>
   );
 };
