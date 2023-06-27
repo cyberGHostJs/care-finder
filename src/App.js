@@ -11,6 +11,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Welcome from "./components/welcome";
 import AdminWelcomePage from "./components/adminWelcome";
 import SavedHospitals from "./components/SavedHospitals";
+import UserProfile from "./components/UserProfile";
 
 
 
@@ -31,6 +32,7 @@ function App() {
       <Route path="/welcome" element={<Welcome />} />
       <Route path="/adminWelcomePage" element={<AdminWelcomePage />} />
       <Route path="/savedHospitals" element={<SavedHospitals />} />
+      <Route path="/userProfile" element={<UserProfile />} />
       <Route path="/resetpassword" element={<ResetPW />} />
       {/* <Route path="*" element={<PageNotFound />} />  */}
     </Routes>

@@ -425,7 +425,7 @@ export const NavBar = () => {
       setActiveMenuItem("findHospitals");
     } else if (location.pathname === "/savedHospitals") {
       setActiveMenuItem("saved");
-    } else if (location.pathname === "/profile") {
+    } else if (location.pathname === "/userProfile") {
       setActiveMenuItem("profile");
     }
   }, [location]);
@@ -537,13 +537,13 @@ export const NavBar = () => {
             </Link>
             {user && (
               <Link
-              // onClick={() => {
-              //   if (activeMenuItem === "profile") {
-              //   } else {
-              //     document.body.style.overflow = "scroll";
-              //   }
-              // }}
-              //   to="/welcome"
+              onClick={() => {
+                if (activeMenuItem === "profile") {
+                } else {
+                  document.body.style.overflow = "scroll";
+                }
+              }}
+                to="/userProfile"
                 className={
                   activeMenuItem === "profile"
                     ? "nav-color-active my-profile"
