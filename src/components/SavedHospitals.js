@@ -84,7 +84,7 @@ const SavedHospital = () => {
   };
 
   return (
-    <Container>
+    <Container fluid>
       <NavBar />
       {savedHospitals.length === 0 ? (
         <p>No saved hospitals found.</p>

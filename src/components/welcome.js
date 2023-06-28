@@ -3,10 +3,8 @@ import frame10 from "../images/Frame10.png";
 import Icon1 from "../images/Icon1.png";
 import loved from "../images/loved.png";
 import redlove from "../images/redlove.svg";
-// import dropdownicon from "../images/dropdownicon.png";
 import Icon2 from "../images/Icon2.png";
 import Icon3 from "../images/Icon3.png";
-import Icon8 from "../images/Icon8.png";
 import filtericon from "../images/filtericon.png";
 import downloadicon from "../images/downloadicon.png";
 import calendaicon from "../images/calendaicon.png";
@@ -364,19 +362,7 @@ const HospitalsDataBase = () => {
                 </Col>
               )
           )}
-
-          {/* <CSVLink
-            data={exportedData}
-            filename="search_results.csv"
-            headers={[
-              { label: "Name", key: "name" },
-              { label: "Address", key: "address" },
-              { label: "Email", key: "email" },
-              { label: "Phone", key: "phone" },
-            ]}
-          > */}
           <button onClick={handleLogout}> Log Out</button>
-          {/* </CSVLink> */}
         </Row>
       )}
     </div>
