@@ -1,4 +1,12 @@
-import { Col, Container, Row, Form, Button, Navbar, Nav } from "react-bootstrap";
+import {
+  Col,
+  Container,
+  Row,
+  Form,
+  Button,
+  Navbar,
+  Nav,
+} from "react-bootstrap";
 import frame10 from "../images/Frame10.png";
 import Icon1 from "../images/Icon1.png";
 // import dropdownicon from "../images/dropdownicon.png";
@@ -140,13 +148,13 @@ const HospitalsDataBase = () => {
   return (
     <div>
       <Row className="grey-border-bottom">
-      <Col
+        <Col
           xs={{ span: "8", offset: "" }}
           lg={{ span: "5", offset: "" }}
           className="d-flex align-items-center justify-content-center"
         >
           <Form.Group controlId="formBasicSearch" className="search-container">
-          <Form.Control
+            <Form.Control
               required
               className="search-input"
               type="text"
@@ -154,17 +162,17 @@ const HospitalsDataBase = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-              <Button variant="success" className="round-border search-button">
-                {/* <img
+            <Button variant="success" className="round-border search-button">
+              {/* <img
                   src={Icon8}
                   alt=""
                   width="20px"
                   style={{ marginRight: "10%", marginBottom: "5%" }}
                 /> */}
-                Search
-              </Button>
+              Search
+            </Button>
           </Form.Group>
-          </Col>
+        </Col>
         <Col
           className="d-flex align-items-center justify-content-center"
           xs={{ span: "2", offset: "" }}
@@ -174,15 +182,15 @@ const HospitalsDataBase = () => {
           }}
         >
           <div>
-          <Form.Group
+            <Form.Group
               controlId="exampleForm.SelectCustomSizeSm"
               style={{ position: "relative" }}
             >
-                <span className="filta-img">
+              <span className="filta-img">
                 <img src={filtericon} alt="flterIcon" width="100%" />
               </span>
-                {/* Filter by hospital tags */}
-                <Form.Control
+              {/* Filter by hospital tags */}
+              <Form.Control
                 as="select"
                 // size="sm"
                 className="round-border filta"
@@ -190,13 +198,13 @@ const HospitalsDataBase = () => {
                 value={hospitalTag}
                 onChange={(e) => setHospitalTag(e.target.value)}
               >
-                  <option value="">Filters</option>
+                <option value="">Filters</option>
                 {availableTags.map((tag) => (
                   <option key={tag} value={tag}>
                     {tag}
                   </option>
                 ))}
-                </Form.Control>
+              </Form.Control>
             </Form.Group>
           </div>
         </Col>
@@ -211,7 +219,7 @@ const HospitalsDataBase = () => {
             className="round-border expt-cvs-btn"
             onClick={handleExport}
           >
-             <CSVLink
+            <CSVLink
               style={{
                 color: "white",
                 textDecoration: "none",
@@ -311,6 +319,7 @@ const HospitalsDataBase = () => {
                 </Col>
               )
           )}
+          <button onClick={handleLogout}> Log Out</button>
         </Row>
       )}
       <h2>Create Hospital Entry</h2>
@@ -495,7 +504,6 @@ const HospitalsDataBase = () => {
 //   );
 // };
 
-
 export const NavBar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -504,11 +512,10 @@ export const NavBar = () => {
   const [isNavFixed, setIsNavFixed] = useState(false);
   const [isLoading, setIsLoading] = useState(true); //
   const [nav, setNav] = useState(false);
-  const [menuButtonColor, setMenuButtonColor] = useState('none');
-
+  const [menuButtonColor, setMenuButtonColor] = useState("none");
 
   const HandleNav = () => {
-    setMenuButtonColor(nav ? 'none' : 'white'); // Toggle between black and white
+    setMenuButtonColor(nav ? "none" : "white"); // Toggle between black and white
     setNav(!nav);
     if (!nav) {
       document.body.style.overflow = "hidden";
@@ -592,7 +599,7 @@ export const NavBar = () => {
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
           className="nav-menu"
-          style={{ background: menuButtonColor}}
+          style={{ background: menuButtonColor }}
           onClick={HandleNav}
         />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -650,13 +657,13 @@ export const NavBar = () => {
             </Link>
             {user && (
               <Link
-              // onClick={() => {
-              //   if (activeMenuItem === "profile") {
-              //   } else {
-              //     document.body.style.overflow = "scroll";
-              //   }
-              // }}
-              //   // to="/userProfile"
+                // onClick={() => {
+                //   if (activeMenuItem === "profile") {
+                //   } else {
+                //     document.body.style.overflow = "scroll";
+                //   }
+                // }}
+                //   // to="/userProfile"
                 className={
                   activeMenuItem === "profile"
                     ? "nav-color-active my-profile"
@@ -683,7 +690,7 @@ export const NavBar = () => {
 function AdminWelcomePage() {
   return (
     <Container fluid style={{}}>
-      <NavBar/>
+      <NavBar />
       <HospitalsDataBase />
     </Container>
   );
