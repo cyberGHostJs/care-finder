@@ -1,22 +1,6 @@
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { auth, firestore } from "../firebase";
-// import ReactMarkdown from "react-markdown";
-// import remarkGfm from "remark-gfm";
-// import { CSVLink } from "react-csv";
-
-import { Col, Container, Row, Form, Button } from "react-bootstrap";
-import frame10 from "../images/Frame10.png";
-import Icon1 from "../images/Icon1.png";
-import loved from "../images/loved.png";
+import { Col, Container, Row } from "react-bootstrap";
 import redlove from "../images/redlove.svg";
 import {  NavBar } from "../components/welcome";
-// import dropdownicon from "../images/dropdownicon.png";
-import Icon2 from "../images/Icon2.png";
-import Icon3 from "../images/Icon3.png";
-import Icon8 from "../images/Icon8.png";
-import filtericon from "../images/filtericon.png";
-import downloadicon from "../images/downloadicon.png";
 import calendaicon from "../images/calendaicon.png";
 import clock from "../images/clock.png";
 import mappin from "../images/mappin.png";
@@ -26,7 +10,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth, firestore } from "../firebase";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { CSVLink } from "react-csv";
 
 const SavedHospital = () => {
   const [savedHospitals, setSavedHospitals] = useState([]);
